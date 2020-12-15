@@ -1,7 +1,5 @@
-#include <iostream>
-#include "rgbAlgorithm.h"
+#include "rgbAlgorithmUtilites.h"
 
-/// https://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution
 int randomUniformInteger(int from, int to) {
     // TODO(@pochka15): think about the better seed
     static auto seed = static_cast<long unsigned int>(time(0));
@@ -27,7 +25,8 @@ std::function<char()> linkedRandomElementsGenerator(float probabilityOfChoosingP
         if (*previousElement_p == ' ') {
             currentElement = RGB_ELEMENTS[randomUniformInteger(0, 2)];
         } else {
-            const bool shouldTakePrevious = uniformRealDistribution(0, 1) <= probabilityOfChoosingPreviousElement;
+            const bool shouldTakePrevious =
+                    uniformRealDistribution(0, 1) <= probabilityOfChoosingPreviousElement;
             currentElement = shouldTakePrevious ?
                              *previousElement_p :
                              RGB_ELEMENTS[randomUniformInteger(0, 2)];
