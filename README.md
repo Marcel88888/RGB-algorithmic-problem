@@ -1,6 +1,13 @@
-# How to
+# Useful howtos and resources
 
-## Generate a vector of RGB elements
+## Useful resources
+
+- [MinGW-w64 - for 32 and 64 bit Windows](https://sourceforge.net/projects/mingw-w64/files/)
+- [C++ Core Guidelines: Passing Smart Pointers](https://www.modernescpp.com/index.php/c-core-guidelines-passing-smart-pointer)
+- [Official c++ guidelines that explain how to code in c++](http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#main)
+- [How to pass smart pointers and all the most important stuff about the c++11](https://youtu.be/xnqTKD8uD64?t=1141)
+
+## How to generate a vector of RGB elements
 
 For now there implemented some distributions and 1 elements generator from the _randomUtilities.h_
 
@@ -19,7 +26,7 @@ return RGB_ELEMENTS[generator()];
 });
 ```
 
-## Print RGB elements
+## How to print RGB elements
 
 To print a vector of rgb elements or a single RgbElement use functions declared in algorithmUtilities.h
 
@@ -29,7 +36,7 @@ std::cout << elements[0] << std::endl;
 std::cout << elements << std::endl;
 ```
 
-## Build an algorithm for the RGB problem
+## How to build an algorithm for the RGB problem
 
 Use some code from the rgbAlgorithmUtilities.h
 
@@ -39,7 +46,7 @@ Use some code from the rgbAlgorithmUtilities.h
 - **maxRgbGroupsAmount()** function that calculates the maximum amount of groups containing 3 RgbElements that can be
   found in the elements vector.
 
-## Use breadth search algorithm
+## How to use the breadth search algorithm
 
 - There is a **BreadSearchAlgorithm** class which has a static **solution()** function which gives the Solution
-  instance. 
+  instance.
