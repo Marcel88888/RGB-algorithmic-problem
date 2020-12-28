@@ -1,22 +1,24 @@
 #include <iostream>
+#include <sstream>
 #include "algorithm_lib/rgbAlgorithmUtilites.h"
+#include "algorithm_lib/breadthSearch.h"
 
-template<typename T>
-void printVector(std::vector<T> &vector) {
-    for (const auto &elem : vector) {
-        std::cout << elem << ", ";
-    }
-    std::cout << std::endl;
-}
+
+void tmp();
 
 int main() {
-    const int elementsNumber = 9;
-    std::vector<int> elements(elementsNumber);
-    int count = 1;
-    std::generate(elements.begin(), elements.end(), [&count] { return count++; });
-    printVector(elements);
-    moveTripleBack(elements, 1);
-    printVector(elements);
+    const int kElementsNumber = 10;
+    std::vector<RgbElement> elements(kElementsNumber);
+    std::generate(elements.begin(),
+                  elements.end(),
+                  [] { return RGB_ELEMENTS[randomUniformInteger(0, 2)]; });
+
+    std::cout << elements << std::endl;
+
+    Solution s = solution(elements);
+    auto depth = !s.indexesOfRgbGroups.empty() ? s.indexesOfRgbGroups.size() - 1 : 0;
+
+    std::cout << s << "\nDepth: " << depth << std::endl;
 
     return 0;
 }

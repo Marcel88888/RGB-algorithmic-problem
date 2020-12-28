@@ -17,21 +17,40 @@ double uniformRealDistribution(double from, double to) {
     return distribution(eng);
 }
 
-std::function<char()> linkedRandomElementsGenerator(float probabilityOfChoosingPreviousElement) {
-    std::shared_ptr<char> previousElement_p = std::make_shared<char>();
-    *previousElement_p = ' ';
-    return [previousElement_p, probabilityOfChoosingPreviousElement]() {
-        char currentElement;
-        if (*previousElement_p == ' ') {
-            currentElement = RGB_ELEMENTS[randomUniformInteger(0, 2)];
+std::function<int()> linkedRandomIndicesGenerator(float probabilityOfChoosingPreviousElement, int from, int to) {
+    return [=, prevElem = -1]() mutable {
+        int currentElement;
+        if (prevElem == -1) {
+            currentElement = randomUniformInteger(from, to);
         } else {
             const bool shouldTakePrevious =
                     uniformRealDistribution(0, 1) <= probabilityOfChoosingPreviousElement;
-            currentElement = shouldTakePrevious ?
-                             *previousElement_p :
-                             RGB_ELEMENTS[randomUniformInteger(0, 2)];
+            currentElement = shouldTakePrevious ? prevElem : randomUniformInteger(from, to);
         }
-        *previousElement_p = currentElement;
+        prevElem = currentElement;
         return currentElement;
     };
+}
+
+bool isCorrectSolution(const std::vector<RgbElement> &elements, const int maxRgbGroupsAmount) {
+    int i = 0;
+    int numberOfElementsToCheck = maxRgbGroupsAmount * 3;
+    for (const auto &elem : elements) {
+        if (i >= numberOfElementsToCheck) { break; }
+        if (elem != RGB_ELEMENTS[i % 3]) { return false; }
+        i++;
+    }
+    return true;
+}
+
+bool Solution::operator==(const Solution &rhs) const {
+    return arrangedElements == rhs.arrangedElements &&
+           indexesOfRgbGroups == rhs.indexesOfRgbGroups &&
+           rgbGroupsAmount == rhs.rgbGroupsAmount;
+}
+
+std::ostream &operator<<(std::ostream &os, const Solution &solution) {
+    os << "Elements: " << solution.arrangedElements << ", indexes: " << solution.indexesOfRgbGroups
+       << ", RGB groups amount: " << solution.rgbGroupsAmount;
+    return os;
 }
