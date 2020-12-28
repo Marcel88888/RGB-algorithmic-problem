@@ -4,19 +4,21 @@
 #include <vector>
 #include <algorithm>
 #include <random>
-#include <chrono>
 #include <memory>
-#include <functional>
 #include <iterator>
 #include <ostream>
+#include "randomUtilities.h"
+
 
 enum RgbElement {
     R = 'R',
     G = 'G',
-    B = 'B',
+    B = 'B'
 };
 
-const char RGB_ELEMENTS[3] = {R, G, B};
+std::ostream &operator<<(std::ostream &os, const RgbElement &other);
+
+const RgbElement RGB_ELEMENTS[3] = {R, G, B};
 
 template<typename T>
 std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
@@ -24,40 +26,24 @@ std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
         out << '[';
         std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
         out << "\b\b]";
+    } else {
+        out << "[]";
     }
     return out;
 }
 
-
-/// https://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution
-/// \param from: minimum value that can be returned
-/// \param to: maximum value that can be returned
-/// \return an integer value from the uniform distribution
-int randomUniformInteger(int from, int to);
-
-/// \param from: minimum value that can be returned
-/// \param to: maximum value that can be returned
-/// \return a float value from the uniform distribution
-double uniformRealDistribution(double from, double to);
-
-/// \param from: minimum value that can be returned
-/// \param to: maximum value that can be returned
-/// \param probabilityOfChoosingPreviousElement: if a random value from the range [0; 1] will be less or equal
-/// than the given parameter then it will be returned the previously generated element.
-/// \return a random lambda that returns integer from the range [from, to]
-std::function<int()> linkedRandomIndicesGenerator(float probabilityOfChoosingPreviousElement, int from, int to);
-
+/// The structure that represents the solution for the rgb problem. It has a vector of arranged elements which
+/// represents a sequence of rgb elements after moving all the groups of elements to the end of the sequence.
+/// The groups of elements are positioned at indexes from the indexesOfRgbGroups vector.
 struct Solution {
-    Solution(std::vector<RgbElement> arrangedElements, std::vector<int> indexesOfRgbGroups, int rgbGroupsAmount) :
+    Solution(std::vector<RgbElement> arrangedElements, std::vector<int> indexesOfRgbGroups) :
             arrangedElements(std::move(arrangedElements)),
-            indexesOfRgbGroups(std::move(indexesOfRgbGroups)),
-            rgbGroupsAmount(rgbGroupsAmount) {}
+            indexesOfRgbGroups(std::move(indexesOfRgbGroups)) {}
 
     Solution() = default;
 
     std::vector<RgbElement> arrangedElements;
     std::vector<int> indexesOfRgbGroups;
-    int rgbGroupsAmount = 0;
 
     bool operator==(const Solution &rhs) const;
 
@@ -79,6 +65,11 @@ std::vector<T> &moveTripleBack(std::vector<T> &elements, int triplePosition) {
 /// \param elements: vector of RGB elements
 /// \param maxRgbGroupsAmount: the maximum amount of groups of 3 rgb elements that can be found in the elements vector
 /// \return true if the solution is correct
-bool isCorrectSolution(const std::vector<RgbElement> &elements, int maxRgbGroupsAmount);
+bool areElementsArrangedCorrectly(const std::vector<RgbElement> &elements, int maxRgbGroupsAmount);
+
+/// The maximum amount of groups of 3 rgb elements that can be found in the elements vector
+/// \param elements: vector of RGB elements
+/// \return int value from 0 to infinity
+int maxRgbGroupsAmount(const std::vector<RgbElement> &elements);
 
 #endif //RGB_ALGORITHMIC_PROBLEM_RGBALGORITHMUTILITES_H
