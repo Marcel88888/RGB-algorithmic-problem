@@ -40,6 +40,9 @@ struct Solution {
             arrangedElements(std::move(arrangedElements)),
             indexesOfRgbGroups(std::move(indexesOfRgbGroups)) {}
 
+    explicit Solution(std::vector<RgbElement> arrangedElements) :
+            arrangedElements(std::move(arrangedElements)) {}
+
     Solution() = default;
 
     std::vector<RgbElement> arrangedElements;
@@ -57,7 +60,10 @@ struct Solution {
 /// \return the given elements
 template<typename T>
 std::vector<T> &moveTripleBack(std::vector<T> &elements, int triplePosition) {
-    std::rotate(elements.begin() + triplePosition, elements.begin() + triplePosition + 3, elements.end());
+    int colors_number = sizeof(RGB_ELEMENTS)/sizeof(RGB_ELEMENTS[0]);
+    if (triplePosition < (int)elements.size() - colors_number) {
+        std::rotate(elements.begin() + triplePosition, elements.begin() + triplePosition + 3, elements.end());
+    }
     return elements;
 }
 
