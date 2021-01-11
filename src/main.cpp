@@ -2,7 +2,6 @@
 #include <sstream>
 #include "algorithm_lib/rgbAlgorithmUtilites.h"
 #include "algorithm_lib/breadthSearch.h"
-#include "algorithm_lib/bruteForceSorting.h"
 #include "algorithm_lib/naiveSorting.h"
 
 
