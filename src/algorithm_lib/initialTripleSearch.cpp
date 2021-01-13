@@ -52,7 +52,7 @@ vector<RgbElement> sortingStep(const vector<RgbElement> &elements, int startingP
             unsorted_balls -= colors_number;
         }
         else if (!triple_found && !double_found) {
-            moveTripleBack(elementsCopy, 0);
+            moveTripleBack(elementsCopy, startingPoint);
             unsorted_balls -= colors_number;
         }
     }
@@ -60,21 +60,34 @@ vector<RgbElement> sortingStep(const vector<RgbElement> &elements, int startingP
     return elementsCopy;
 }
 
+int countSortedGroups(const vector<RgbElement> &elements, int colorsNumber) {
+    vector<RgbElement> elementsCopy(elements);
+    int start_point = (int)elementsCopy.size() % colorsNumber;
+    int sorted_groups = 0;
+    for (int j = start_point; j < elementsCopy.size() - 2; j += colorsNumber) {
+        if (elementsCopy[j] == RgbElement::R && elementsCopy[j + 1] == RgbElement::G &&
+            elementsCopy[j + 2] == RgbElement::B) {
+            sorted_groups++;
+        } else {
+            break;
+        }
+    }
+    return sorted_groups;
+}
+
 Solution InitialTripleSearch::sort(const vector<RgbElement> &elements, int maxRgbGroupsAmount) {
     vector<RgbElement> elementsCopy(elements);
     int colors_number = sizeof(RGB_ELEMENTS) / sizeof(RGB_ELEMENTS[0]);
-    int well = 0;
-    for (int i = 0; i < 1; ++i) {
-        elementsCopy = sortingStep(elementsCopy, 0);
-        for (int i = 0; i < elementsCopy.size(); i += colors_number) {
-            if (elementsCopy[i] == RgbElement::R && elementsCopy[i + 1] == RgbElement::G &&
-                elementsCopy[i + 2] == RgbElement::B) {
-                well++;
-            } else {
-                break;
-            }
-        }
+    int sorted_groups = 0;
+    while (sorted_groups < maxRgbGroupsAmount - 2) {
+        sorted_groups = countSortedGroups(elementsCopy, colors_number);
+        cout << sorted_groups << endl;
+        elementsCopy = sortingStep(elementsCopy, ( (int)elementsCopy.size() % colors_number ) +
+            sorted_groups * colors_number);
+        cout << elementsCopy << endl;
+        sorted_groups = countSortedGroups(elementsCopy, colors_number);
+        cout << sorted_groups << endl;
     }
-    cout << "Well: " << well << std::endl;
+    cout << "Well: " << sorted_groups << std::endl;
     return Solution(elementsCopy);
 }
