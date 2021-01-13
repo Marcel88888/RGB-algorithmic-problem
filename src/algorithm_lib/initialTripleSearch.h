@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "rgbAlgorithmUtilites.h"
+#include "naiveSorting.h"
 
 using namespace std;
 
