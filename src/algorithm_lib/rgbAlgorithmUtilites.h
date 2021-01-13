@@ -78,4 +78,6 @@ bool areElementsArrangedCorrectly(const std::vector<RgbElement> &elements, int m
 /// \return int value from 0 to infinity
 int maxRgbGroupsAmount(const std::vector<RgbElement> &elements);
 
+int getElemReqPosition(RgbElement element);
+
 #endif //RGB_ALGORITHMIC_PROBLEM_RGBALGORITHMUTILITES_H

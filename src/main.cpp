@@ -3,6 +3,7 @@
 #include "algorithm_lib/rgbAlgorithmUtilites.h"
 #include "algorithm_lib/breadthSearch.h"
 #include "algorithm_lib/naiveSorting.h"
+#include "algorithm_lib/initialTripleSearch.h"
 
 
 int main() {
@@ -33,7 +34,7 @@ int main() {
         return RGB_ELEMENTS[randomUniformInteger(0, 2)];
     });
 
-    std::cout << elements << std::endl;
+//    std::cout << elements << std::endl;
     int r = 0, g = 0, b = 0;
     for (auto & element : elements) {
         if(element == RgbElement::R) r++;
@@ -46,7 +47,8 @@ int main() {
 
     cout << "max: " << max << std::endl;
 
-    Solution s = NaiveSorting::sort(elements, max);
+//    Solution s = NaiveSorting::sort(elements, max);
+    Solution s = InitialTripleSearch::sort(elements, max);
     std::cout << s << std::endl;
 
     bool correct = areElementsArrangedCorrectly(s.arrangedElements, max);
@@ -62,7 +64,7 @@ int main() {
         return RGB_ELEMENTS[randomUniformInteger(0, 2)];
     });
 
-    std::cout << elements2 << std::endl;
+//    std::cout << elements2 << std::endl;
     int r2 = 0, g2 = 0, b2 = 0;
     for (auto & element : elements2) {
         if(element == RgbElement::R) r2++;
@@ -75,7 +77,8 @@ int main() {
 
     cout << "max: " << max2 << std::endl;
 
-    Solution s2 = NaiveSorting::sort(elements2, max2);
+//    Solution s2 = NaiveSorting::sort(elements2, max2);
+    Solution s2 = InitialTripleSearch::sort(elements2, max2);
     std::cout << s2 << std::endl;
 
     bool correct2 = areElementsArrangedCorrectly(s2.arrangedElements, max2);
@@ -91,7 +94,7 @@ int main() {
         return RGB_ELEMENTS[randomUniformInteger(0, 2)];
     });
 
-    std::cout << elements3 << std::endl;
+//    std::cout << elements3 << std::endl;
     int r3 = 0, g3 = 0, b3 = 0;
     for (auto & element : elements3) {
         if(element == RgbElement::R) r3++;
@@ -104,7 +107,8 @@ int main() {
 
     cout << "max: " << max3 << std::endl;
 
-    Solution s3 = NaiveSorting::sort(elements3, max3);
+//    Solution s3 = NaiveSorting::sort(elements3, max3);
+    Solution s3 = InitialTripleSearch::sort(elements3, max3);
     std::cout << s3 << std::endl;
 
     bool correct3 = areElementsArrangedCorrectly(s3.arrangedElements, max3);

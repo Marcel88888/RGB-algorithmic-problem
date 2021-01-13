@@ -38,3 +38,14 @@ int maxRgbGroupsAmount(const std::vector<RgbElement> &elements) {
     return std::min({rCount, gCount, bCount});
 }
 
+int getElemReqPosition(RgbElement element) {
+    switch (element) {
+        case RgbElement::R:
+            return 0;
+        case RgbElement::G:
+            return 1;
+        case RgbElement::B:
+            return 2;
+    }
+}
+
