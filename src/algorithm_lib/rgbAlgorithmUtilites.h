@@ -16,9 +16,9 @@ enum RgbElement {
     B = 'B'
 };
 
-std::ostream &operator<<(std::ostream &os, const RgbElement &other);
+inline const std::vector<RgbElement> kRgbElements = {R, G, B};
 
-const RgbElement RGB_ELEMENTS[3] = {R, G, B};
+std::ostream &operator<<(std::ostream &os, const RgbElement &other);
 
 template<typename T>
 std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
@@ -60,9 +60,10 @@ struct Solution {
 /// \return the given elements
 template<typename T>
 std::vector<T> &moveTripleBack(std::vector<T> &elements, int triplePosition) {
-    int colors_number = sizeof(RGB_ELEMENTS)/sizeof(RGB_ELEMENTS[0]);
-    if (triplePosition < (int)elements.size() - colors_number) {
-        std::rotate(elements.begin() + triplePosition, elements.begin() + triplePosition + 3, elements.end());
+    if (triplePosition < (int) elements.size() - kRgbElements.size()) {
+        std::rotate(elements.begin() + triplePosition,
+                    elements.begin() + triplePosition + 3,
+                    elements.end());
     }
     return elements;
 }
@@ -77,6 +78,7 @@ bool areElementsArrangedCorrectly(const std::vector<RgbElement> &elements, int m
 /// \param elements: vector of RGB elements
 /// \return int value from 0 to infinity
 int maxRgbGroupsAmount(const std::vector<RgbElement> &elements);
+
 
 int getElemReqPosition(RgbElement element);
 

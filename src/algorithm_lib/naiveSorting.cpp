@@ -39,9 +39,9 @@ vector<RgbElement> moveExpValToTheBeg(int requiredMoves, vector<RgbElement> elem
 
 Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroupsAmount) {
     vector<RgbElement> elementsCopy(elements);
-    int colors_number = sizeof(RGB_ELEMENTS) / sizeof(RGB_ELEMENTS[0]); // 3
-    for (int i = 0; i < maxRgbGroupsAmount * colors_number; ++i) {
-        RgbElement expected_value = RGB_ELEMENTS[i % colors_number];
+    int groupSize = kRgbElements.size();
+    for (int i = 0; i < maxRgbGroupsAmount * groupSize; ++i) {
+        RgbElement expected_value = kRgbElements[i % groupSize];
         if (elementsCopy[i] == expected_value) {
             continue;
         }
@@ -50,12 +50,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
 //        elementsCopy = sortDepOnExpVal(expected_value, elementsCopy, i, colors_number, position);
         if (expected_value == RgbElement::R) {
             int moves;
-            if (position % colors_number == 0) {  // on position 3k
-                moves = (position - i) / colors_number;
+            if (position % groupSize == 0) {  // on position 3k
+                moves = (position - i) / groupSize;
                 elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
-            }
-            else if (position % colors_number == 1 || position % colors_number == 2) {
-                if (elementsCopy.size() % colors_number == 0) {
+            } else if (position % groupSize == 1 || position % groupSize == 2) {
+                if (elementsCopy.size() % groupSize == 0) {
                     int move_position = position;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
                         // expected value further
@@ -63,10 +62,9 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                         if (move_position == -1) { break; }  // There is not expected value further.
                     }
                     moveTripleBack(elementsCopy, move_position);
-                    moves = (int(elementsCopy.size()) - 3 - i) / colors_number;
+                    moves = (int(elementsCopy.size()) - 3 - i) / groupSize;
                     elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
-                }
-                else if (elementsCopy.size() % colors_number == 1) {
+                } else if (elementsCopy.size() % groupSize == 1) {
                     int move_position = position - 2;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
                         // expected value further
@@ -74,10 +72,9 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                         if (move_position == -1) { break; }  // There is not expected value further.
                     }
                     moveTripleBack(elementsCopy, move_position);
-                    moves = (int(elementsCopy.size()) - 1 - i) / colors_number;
+                    moves = (int(elementsCopy.size()) - 1 - i) / groupSize;
                     elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
-                }
-                else if (elementsCopy.size() % colors_number == 2) {
+                } else if (elementsCopy.size() % groupSize == 2) {
                     int move_position = position - 1;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
                         // expected value further
@@ -85,19 +82,18 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                         if (move_position == -1) { break; }  // There is not expected value further.
                     }
                     moveTripleBack(elementsCopy, move_position);
-                    moves = (int(elementsCopy.size()) - 2 - i) / colors_number;
+                    moves = (int(elementsCopy.size()) - 2 - i) / groupSize;
                     elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
                 }
             }
         }
         else if (expected_value == RgbElement::G) {
             int moves;
-            if (position % colors_number == 1) {  // on position n 3k + 1
-                moves = (position - i) / colors_number;
+            if (position % groupSize == 1) {  // on position n 3k + 1
+                moves = (position - i) / groupSize;
                 elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
-            }
-            else if (position % colors_number == 2 || position % colors_number == 0) {
-                if (elementsCopy.size() % colors_number == 0) {
+            } else if (position % groupSize == 2 || position % groupSize == 0) {
+                if (elementsCopy.size() % groupSize == 0) {
                     int move_position = position - 1;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
                         // expected value further
@@ -105,10 +101,9 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                         if (move_position == -1) { break; }  // There is not expected value further.
                     }
                     moveTripleBack(elementsCopy, move_position);
-                    moves = (int(elementsCopy.size()) - 2 - i) / colors_number;
+                    moves = (int(elementsCopy.size()) - 2 - i) / groupSize;
                     elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
-                }
-                else if (elementsCopy.size() % colors_number == 1) {
+                } else if (elementsCopy.size() % groupSize == 1) {
                     int move_position = position;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
                         // expected value further
@@ -116,10 +111,9 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                         if (move_position == -1) { break; }  // There is not expected value further.
                     }
                     moveTripleBack(elementsCopy, move_position);
-                    moves = (int(elementsCopy.size()) - 3 - i) / colors_number;
+                    moves = (int(elementsCopy.size()) - 3 - i) / groupSize;
                     elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
-                }
-                else if (elementsCopy.size() % colors_number == 2) {
+                } else if (elementsCopy.size() % groupSize == 2) {
                     int move_position = position - 2;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
                         // expected value further
@@ -127,19 +121,18 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                         if (move_position == -1) { break; }  // There is not expected value further.
                     }
                     moveTripleBack(elementsCopy, move_position);
-                    moves = (int(elementsCopy.size()) - 1 - i) / colors_number;
+                    moves = (int(elementsCopy.size()) - 1 - i) / groupSize;
                     elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
                 }
             }
         }
         else if (expected_value == RgbElement::B) {
             int moves;
-            if (position % colors_number == 2) {  // on position 3k + 2
-                moves = (position - i) / colors_number;
+            if (position % groupSize == 2) {  // on position 3k + 2
+                moves = (position - i) / groupSize;
                 elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
-            }
-            else if (position % colors_number == 0 || position % colors_number == 1) {
-                if (elementsCopy.size() % colors_number == 0) {
+            } else if (position % groupSize == 0 || position % groupSize == 1) {
+                if (elementsCopy.size() % groupSize == 0) {
                     int move_position = position - 2;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
                         // expected value further
@@ -147,10 +140,9 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                         if (move_position == -1) { break; }  // There is not expected value further.
                     }
                     moveTripleBack(elementsCopy, move_position);
-                    moves = (int(elementsCopy.size()) - 1 - i) / colors_number;
+                    moves = (int(elementsCopy.size()) - 1 - i) / groupSize;
                     elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
-                }
-                else if (elementsCopy.size() % colors_number == 1) {
+                } else if (elementsCopy.size() % groupSize == 1) {
                     int move_position = position - 1;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
                         // expected value further
@@ -158,10 +150,9 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                         if (move_position == -1) { break; }  // There is not expected value further.
                     }
                     moveTripleBack(elementsCopy, move_position);
-                    moves = (int(elementsCopy.size()) - 2 - i) / colors_number;
+                    moves = (int(elementsCopy.size()) - 2 - i) / groupSize;
                     elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
-                }
-                else if (elementsCopy.size() % colors_number == 2) {
+                } else if (elementsCopy.size() % groupSize == 2) {
                     int move_position = position;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
                         // expected value further
@@ -169,7 +160,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                         if (move_position == -1) { break; }  // There is not expected value further.
                     }
                     moveTripleBack(elementsCopy, move_position);
-                    moves = (int(elementsCopy.size()) - 3 - i) / colors_number;
+                    moves = (int(elementsCopy.size()) - 3 - i) / groupSize;
                     elementsCopy = moveExpValToTheBeg(moves, elementsCopy, i);
                 }
             }
@@ -177,7 +168,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
     }
 
     int well = 0;
-    for (int i = 0; i < elementsCopy.size(); i += colors_number) {
+    for (int i = 0; i < elementsCopy.size(); i += groupSize) {
         if (elementsCopy[i] == RgbElement::R && elementsCopy[i + 1] == RgbElement::G &&
             elementsCopy[i + 2] == RgbElement::B) {
             well++;

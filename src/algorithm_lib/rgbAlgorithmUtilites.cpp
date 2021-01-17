@@ -2,10 +2,11 @@
 
 bool areElementsArrangedCorrectly(const std::vector<RgbElement> &elements, int maxRgbGroupsAmount) {
     int i = 0;
-    int numberOfElementsToCheck = maxRgbGroupsAmount * 3;
+    const int groupSize = kRgbElements.size();
+    int numberOfElementsToCheck = maxRgbGroupsAmount * groupSize;
     for (const auto &elem : elements) {
         if (i >= numberOfElementsToCheck) { break; }
-        if (elem != RGB_ELEMENTS[i % 3]) { return false; }
+        if (elem != kRgbElements[i % groupSize]) { return false; }
         i++;
     }
     return true;

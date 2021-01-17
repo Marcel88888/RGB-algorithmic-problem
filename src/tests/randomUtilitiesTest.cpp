@@ -22,7 +22,7 @@ TEST(Random, RandomDoublesAreDifferent) {
 TEST(Random, ElementsAreEqualUsingLinkedRandomizer) {
     std::vector<char> v1(20);
     auto gen = linkedRandomIntegersGenerator(1, 0, 2);
-    std::generate(v1.begin(), v1.end(), [&gen] { return RGB_ELEMENTS[gen()]; });
+    std::generate(v1.begin(), v1.end(), [&gen] { return kRgbElements[gen()]; });
     std::vector<char> v2(20, v1[0]);
     ASSERT_EQ(v1, v2);
 }
@@ -30,7 +30,7 @@ TEST(Random, ElementsAreEqualUsingLinkedRandomizer) {
 TEST(Random, ElementsAreDifferentUsingLinkedRandomizer) {
     std::vector<char> v1(30);
     auto gen = linkedRandomIntegersGenerator(0.3, 0, 2);
-    std::generate(v1.begin(), v1.end(), [&gen] { return RGB_ELEMENTS[gen()]; });
+    std::generate(v1.begin(), v1.end(), [&gen] { return kRgbElements[gen()]; });
     std::vector<char> v2(30, v1[0]);
     ASSERT_NE(v1, v2);
 }

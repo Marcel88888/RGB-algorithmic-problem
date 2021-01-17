@@ -16,13 +16,13 @@ std::vector<RgbElement> elements(kElementsNumber);
 
 //  Use of the uniform distribution
 std::generate(elements.begin(), elements.end(),[] {
-return RGB_ELEMENTS[randomUniformInteger(0, 2)];
+return kRgbElements[randomUniformInteger(0, 2)];
 });
 
 //  Use of the linkedRandomIntegersGenerator
 const auto generator = linkedRandomIntegersGenerator(0.5, 0, 2);
 std::generate(elements.begin(), elements.end(),[&generator] {
-return RGB_ELEMENTS[generator()];
+return kRgbElements[generator()];
 });
 ```
 
