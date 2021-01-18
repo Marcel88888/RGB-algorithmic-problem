@@ -1,4 +1,4 @@
-#include "breadthSearch.h"
+#include "BreadthSearch.h"
 
 Solution BreadthSearchAlgorithm::recursiveSolution(const std::vector<RgbElement> &elements, const NodesVector &nodes,
                                                    const int kChildNodesNumber, const int kMaxRgbGroupsAmount) {
@@ -30,7 +30,7 @@ Solution BreadthSearchAlgorithm::recursiveSolution(const std::vector<RgbElement>
  * for each root node create child nodes and call the recursiveSolution with all the child nodes.
  */
 Solution BreadthSearchAlgorithm::solution(const std::vector<RgbElement> &elements) {
-    const int kGroupSize = 3;
+    const int kGroupSize = kRgbElements.size();
     if (elements.size() < kGroupSize) return Solution();
     const int kChildNodesNumber = (int) elements.size() - kGroupSize;
     const int kMaxRgbGroupsAmount = maxRgbGroupsAmount(elements);

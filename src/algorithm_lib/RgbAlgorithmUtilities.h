@@ -1,5 +1,5 @@
-#ifndef RGB_ALGORITHMIC_PROBLEM_RGBALGORITHMUTILITES_H
-#define RGB_ALGORITHMIC_PROBLEM_RGBALGORITHMUTILITES_H
+#ifndef RGB_ALGORITHMIC_PROBLEM_RGBALGORITHMUTILITIES_H
+#define RGB_ALGORITHMIC_PROBLEM_RGBALGORITHMUTILITIES_H
 
 #include <vector>
 #include <algorithm>
@@ -7,7 +7,7 @@
 #include <memory>
 #include <iterator>
 #include <ostream>
-#include "randomUtilities.h"
+#include "RandomUtilities.h"
 
 
 enum RgbElement {
@@ -36,9 +36,9 @@ std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
 /// represents a sequence of rgb elements after moving all the groups of elements to the end of the sequence.
 /// The groups of elements are positioned at indexes from the indexesOfRgbGroups vector.
 struct Solution {
-    Solution(std::vector<RgbElement> arrangedElements, std::vector<int> indexesOfRgbGroups) :
+    Solution(std::vector<RgbElement> arrangedElements, std::vector<int> indexesOfMovedGroups) :
             arrangedElements(std::move(arrangedElements)),
-            indexesOfRgbGroups(std::move(indexesOfRgbGroups)) {}
+            indexesOfMovedGroups(std::move(indexesOfMovedGroups)) {}
 
     explicit Solution(std::vector<RgbElement> arrangedElements) :
             arrangedElements(std::move(arrangedElements)) {}
@@ -46,7 +46,7 @@ struct Solution {
     Solution() = default;
 
     std::vector<RgbElement> arrangedElements;
-    std::vector<int> indexesOfRgbGroups;
+    std::vector<int> indexesOfMovedGroups;
 
     bool operator==(const Solution &rhs) const;
 
@@ -79,7 +79,11 @@ bool areElementsArrangedCorrectly(const std::vector<RgbElement> &elements, int m
 /// \return int value from 0 to infinity
 int maxRgbGroupsAmount(const std::vector<RgbElement> &elements);
 
+/// Check if 3 iterator elements equal [R, G, B]
+/// \param iterator: it must be ensured that iterators will give at list 3 values
+/// \return true if iterator values are R G B accordingly
+bool isRgbTriple(std::vector<RgbElement>::const_iterator iterator);
 
 int getElemReqPosition(RgbElement element);
 
-#endif //RGB_ALGORITHMIC_PROBLEM_RGBALGORITHMUTILITES_H
+#endif //RGB_ALGORITHMIC_PROBLEM_RGBALGORITHMUTILITIES_H

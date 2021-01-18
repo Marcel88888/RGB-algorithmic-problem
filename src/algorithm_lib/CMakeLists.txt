@@ -1,3 +1,3 @@
 project(RGB_algorithmic_problem)
 
-add_library(algorithm_lib STATIC rgbAlgorithmUtilites.cpp breadthSearch.cpp randomUtilities.cpp naiveSorting.h naiveSorting.cpp initialTripleSearch.cpp initialTripleSearch.h)
+add_library(algorithm_lib STATIC RgbAlgorithmUtilities.cpp BreadthSearch.cpp RandomUtilities.cpp NaiveSorting.h NaiveSorting.cpp InitialTripleSearch.cpp InitialTripleSearch.h AdvancedSearch.cpp AdvancedSearch.h MatchingGroup.cpp MatchingGroup.h)

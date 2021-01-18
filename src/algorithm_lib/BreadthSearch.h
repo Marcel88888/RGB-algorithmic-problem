@@ -7,7 +7,7 @@
 #include <vector>
 #include <ostream>
 #include <iostream>
-#include "rgbAlgorithmUtilites.h"
+#include "RgbAlgorithmUtilities.h"
 
 /// Structure that represents graph nodes. Each node has a single parent and contains a value.
 /// \tparam T: type of the node value

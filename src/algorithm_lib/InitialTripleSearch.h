@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <iostream>
-#include "rgbAlgorithmUtilites.h"
-#include "naiveSorting.h"
+#include "RgbAlgorithmUtilities.h"
+#include "NaiveSorting.h"
 
 using namespace std;
 

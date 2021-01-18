@@ -1,4 +1,5 @@
-#include "rgbAlgorithmUtilites.h"
+#include "InitialTripleSearch.h"
+#include "RgbAlgorithmUtilities.h"
 
 bool areElementsArrangedCorrectly(const std::vector<RgbElement> &elements, int maxRgbGroupsAmount) {
     int i = 0;
@@ -14,11 +15,11 @@ bool areElementsArrangedCorrectly(const std::vector<RgbElement> &elements, int m
 
 bool Solution::operator==(const Solution &rhs) const {
     return arrangedElements == rhs.arrangedElements &&
-           indexesOfRgbGroups == rhs.indexesOfRgbGroups;
+           indexesOfMovedGroups == rhs.indexesOfMovedGroups;
 }
 
 std::ostream &operator<<(std::ostream &os, const Solution &solution) {
-    os << "Elements: " << solution.arrangedElements << ", indexes: " << solution.indexesOfRgbGroups;
+    os << "Elements: " << solution.arrangedElements << ", indexes: " << solution.indexesOfMovedGroups;
     return os;
 }
 
@@ -40,13 +41,16 @@ int maxRgbGroupsAmount(const std::vector<RgbElement> &elements) {
 }
 
 int getElemReqPosition(RgbElement element) {
-    switch (element) {
-        case RgbElement::R:
-            return 0;
-        case RgbElement::G:
-            return 1;
-        case RgbElement::B:
-            return 2;
-    }
+    if (element == R) return 0;
+    if (element == G) return 1;
+    return 2;
 }
 
+bool isRgbTriple(std::vector<RgbElement>::const_iterator iterator) {
+    for (const auto &elem : kRgbElements) {
+        if (elem != *(iterator))
+            return false;
+        iterator = next(iterator);
+    }
+    return true;
+}

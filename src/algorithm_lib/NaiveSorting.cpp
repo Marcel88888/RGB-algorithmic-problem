@@ -1,4 +1,4 @@
-#include "naiveSorting.h"
+#include "NaiveSorting.h"
 
 using namespace std;
 

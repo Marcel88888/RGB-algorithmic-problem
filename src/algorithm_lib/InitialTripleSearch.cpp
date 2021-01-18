@@ -1,16 +1,7 @@
-#include "initialTripleSearch.h"
+#include "InitialTripleSearch.h"
+#include "RgbAlgorithmUtilities.h"
 
 using namespace std;
-
-
-bool isRgbTriple(std::vector<RgbElement>::const_iterator iterator) {
-    for (const auto &elem : kRgbElements) {
-        if (elem != *(iterator))
-            return false;
-        iterator = next(iterator);
-    }
-    return true;
-}
 
 
 vector<RgbElement> sortingStep(const vector<RgbElement> &elements, int startingPoint, int groupSize) {

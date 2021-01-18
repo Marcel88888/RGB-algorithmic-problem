@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <iostream>
-#include "rgbAlgorithmUtilites.h"
+#include "RgbAlgorithmUtilities.h"
 
 using namespace std;
 

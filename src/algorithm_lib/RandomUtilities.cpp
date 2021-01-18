@@ -1,4 +1,4 @@
-#include "randomUtilities.h"
+#include "RandomUtilities.h"
 
 int randomUniformInteger(int from, int to) {
     // TODO(@pochka15): think about the better seed

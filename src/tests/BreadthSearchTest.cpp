@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <ostream>
-#include "algorithm_lib/breadthSearch.h"
+#include "algorithm_lib/BreadthSearch.h"
 
 TEST(BreadthSearch, branchValuesAreExtractedCorrectly) {
     Node<int> n0(0, nullptr);
@@ -15,7 +15,7 @@ TEST(BreadthSearch, branchValuesAreExtractedCorrectly) {
 TEST(BreadthSearch, movementIndexesAreCorrectlyCalculated) {
     std::vector<RgbElement> elements{G, B, R, R, B, R, G, G, G, B};
     Solution s = BreadthSearchAlgorithm::solution(elements);
-    for (const int ind :s.indexesOfRgbGroups) {
+    for (const int ind :s.indexesOfMovedGroups) {
         moveTripleBack(elements, ind);
     }
     ASSERT_EQ(elements, s.arrangedElements);

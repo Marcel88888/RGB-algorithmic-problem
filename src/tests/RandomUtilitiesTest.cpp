@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "algorithm_lib/rgbAlgorithmUtilites.h"
+#include "algorithm_lib/RgbAlgorithmUtilities.h"
 
 
 TEST(Random, RandomIntegersAreDifferent) {
