@@ -61,7 +61,7 @@ vector<RgbElement> sortingStep(const vector<RgbElement> &elements, int startingP
 }
 
 
-/// Count rgb groups until it's found first non-rgb group
+/// Counts rgb groups until it's found first non-rgb group
 int countFirstRgbGroups(std::vector<RgbElement>::const_iterator beg,
                         std::vector<RgbElement>::const_iterator end) {
     const int groupSize = kRgbElements.size();

@@ -4,6 +4,7 @@
 #include "algorithm_lib/breadthSearch.h"
 #include "algorithm_lib/naiveSorting.h"
 #include "algorithm_lib/initialTripleSearch.h"
+#include <vector>
 
 
 int main() {
@@ -28,7 +29,7 @@ int main() {
 
 
     const int kElementsNumber = 1000;
-    std::vector<RgbElement> elements(kElementsNumber);
+    std::vector<> elements(kElementsNumber);
 
     std::generate(elements.begin(), elements.end(),[] {
         return RGB_ELEMENTS[randomUniformInteger(0, 2)];
