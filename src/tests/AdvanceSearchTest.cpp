@@ -14,10 +14,11 @@ TEST(AdvancedSearch, SolutionIndexesAreCalculatedCorrectly) {
 
 TEST(AdvancedSearch, ElementsAreArrangedCorrectly) {
     std::vector<std::pair<std::vector<RgbElement>, std::vector<RgbElement>>> BeforeAfterSolution =
-            {{{R, G, R, R, G, B, G, G, B, R, G, B}, {R, G, B, R, G, B, R, G, B, R, G, G}},
-             {{R, G, B, R, G, B},                   {R, G, B, R, G, B}},
-             {{R, G, G, R, B, B},                   {R, G, B, G, R, B}},
-             {{R, B, G, G, G, B},                   {R, G, B, B, G, G}}};
+            {
+                    {{R, G, G, R, B, B},                   {R, G, B, G, R, B}},
+                    {{R, G, B, R, G, B},                   {R, G, B, R, G, B}},
+                    {{R, B, G, G, G, B},                   {R, G, B, B, G, G}},
+                    {{R, G, R, R, G, B, G, G, B, R, G, B}, {R, G, B, R, G, B, R, G, B, R, G, G}}};
     for (const auto &pair : BeforeAfterSolution) {
         EXPECT_EQ(AdvancedSearch::solution(pair.first).arrangedElements, pair.second);
     }

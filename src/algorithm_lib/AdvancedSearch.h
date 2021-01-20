@@ -13,9 +13,12 @@ public:
                                            std::vector<RgbElement>::const_iterator end);
 
     /// Find the positions of all RGB groups that exist in the given vector of elements.
-    /// \param elements: vector of rgb elements
+    /// \param beg: beginning iterator over rgb elements
+    /// \param end: ending iterator over rgb elements
     /// \return vector of the found positions, empty if no groups were matched
-    static std::vector<int> positionsOfAllExistingRgbTriples(const std::vector<RgbElement> &elements);
+    static std::vector<int> positionsOfAllExistingRgbTriples(
+            std::vector<RgbElement>::const_iterator beg,
+            std::vector<RgbElement>::const_iterator end);
 
     /// For each given matching group find the position of the matched group. Each next group is searched
     /// starting after the last element of the last found group (not from the beginning)
