@@ -108,7 +108,7 @@ int main() {
     cout << "max: " << max3 << std::endl;
 
 //    Solution s3 = NaiveSorting::sort(elements3, max3);
-    Solution s3 = InitialTripleSearch::sort(elements3, max3);
+    Solution s3 = InitialTripleSearch::sort(elements3, 100);
     std::cout << s3 << std::endl;
 //    std::cout << "Moves: " << s3.indexesOfMovedGroups << std::endl;
 

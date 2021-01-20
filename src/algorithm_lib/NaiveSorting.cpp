@@ -18,7 +18,7 @@ int findExpValTriplePosition(int prevPosition, vector<RgbElement> elementsCopy, 
 tuple<vector<RgbElement>, vector<int>> NaiveSorting::moveExpValToTheBeg(int requiredMoves, vector<RgbElement>
         elements, int moveIndex) {
     int k = 0;
-    std::vector<int> indexesOfMovedGroups;
+    vector<int> indexesOfMovedGroups;
     while (k < requiredMoves) {
         moveTripleBack(elements, moveIndex);
         indexesOfMovedGroups.push_back(moveIndex);
@@ -43,7 +43,7 @@ tuple<vector<RgbElement>, vector<int>> NaiveSorting::moveExpValToTheBeg(int requ
 
 Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroupsAmount) {
     vector<RgbElement> elementsCopy(elements);
-    std::vector<int> indexesOfMovedGroups;
+    vector<int> indexesOfMovedGroups;
     int groupSize = kRgbElements.size();
     for (int i = 0; i < maxRgbGroupsAmount * groupSize; ++i) {
         RgbElement expected_value = kRgbElements[i % groupSize];
@@ -227,17 +227,6 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
             }
         }
     }
-
-    int well = 0;
-    for (int i = 0; i < elementsCopy.size(); i += groupSize) {
-        if (elementsCopy[i] == RgbElement::R && elementsCopy[i + 1] == RgbElement::G &&
-            elementsCopy[i + 2] == RgbElement::B) {
-            well++;
-        } else {
-            break;
-        }
-    }
-    cout << "Well: " << well << std::endl;
     return Solution(elementsCopy, indexesOfMovedGroups);
 }
 

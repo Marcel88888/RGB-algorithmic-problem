@@ -12,7 +12,7 @@ using namespace std;
 class InitialTripleSearch {
 
 public:
-    static Solution sort(const vector<RgbElement> &elements, int maxRgbGroupsAmount);
+    static Solution sort(const vector<RgbElement> &elements, int failuresLimit);
 
 };
 
