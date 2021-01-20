@@ -56,11 +56,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
             int moves;
             if (position % groupSize == 0) {  // on position 3k
                 moves = (position - i) / groupSize;
-                tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                elementsCopy = get<0>(a);
+                tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                elementsCopy = get<0>(moves_results);
                 indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                            get<1>(a).begin(),
-                                            get<1>(a).end() );
+                                            get<1>(moves_results).begin(),
+                                            get<1>(moves_results).end() );
             } else if (position % groupSize == 1 || position % groupSize == 2) {
                 if (elementsCopy.size() % groupSize == 0) {
                     int move_position = position;
@@ -72,11 +72,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     moveTripleBack(elementsCopy, move_position);
                     indexesOfMovedGroups.push_back(move_position);
                     moves = (int(elementsCopy.size()) - 3 - i) / groupSize;
-                    tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                    elementsCopy = get<0>(a);
+                    tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                    elementsCopy = get<0>(moves_results);
                     indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                                get<1>(a).begin(),
-                                                get<1>(a).end() );
+                                                get<1>(moves_results).begin(),
+                                                get<1>(moves_results).end() );
                 } else if (elementsCopy.size() % groupSize == 1) {
                     int move_position = position - 2;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -87,11 +87,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     moveTripleBack(elementsCopy, move_position);
                     indexesOfMovedGroups.push_back(move_position);
                     moves = (int(elementsCopy.size()) - 1 - i) / groupSize;
-                    tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                    elementsCopy = get<0>(a);
+                    tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                    elementsCopy = get<0>(moves_results);
                     indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                                get<1>(a).begin(),
-                                                get<1>(a).end() );
+                                                get<1>(moves_results).begin(),
+                                                get<1>(moves_results).end() );
                 } else if (elementsCopy.size() % groupSize == 2) {
                     int move_position = position - 1;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -102,11 +102,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     moveTripleBack(elementsCopy, move_position);
                     indexesOfMovedGroups.push_back(move_position);
                     moves = (int(elementsCopy.size()) - 2 - i) / groupSize;
-                    tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                    elementsCopy = get<0>(a);
+                    tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                    elementsCopy = get<0>(moves_results);
                     indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                                get<1>(a).begin(),
-                                                get<1>(a).end() );
+                                                get<1>(moves_results).begin(),
+                                                get<1>(moves_results).end() );
                 }
             }
         }
@@ -114,11 +114,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
             int moves;
             if (position % groupSize == 1) {  // on position n 3k + 1
                 moves = (position - i) / groupSize;
-                tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                elementsCopy = get<0>(a);
+                tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                elementsCopy = get<0>(moves_results);
                 indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                            get<1>(a).begin(),
-                                            get<1>(a).end() );
+                                            get<1>(moves_results).begin(),
+                                            get<1>(moves_results).end() );
             } else if (position % groupSize == 2 || position % groupSize == 0) {
                 if (elementsCopy.size() % groupSize == 0) {
                     int move_position = position - 1;
@@ -130,11 +130,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     moveTripleBack(elementsCopy, move_position);
                     indexesOfMovedGroups.push_back(move_position);
                     moves = (int(elementsCopy.size()) - 2 - i) / groupSize;
-                    tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                    elementsCopy = get<0>(a);
+                    tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                    elementsCopy = get<0>(moves_results);
                     indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                                get<1>(a).begin(),
-                                                get<1>(a).end() );
+                                                get<1>(moves_results).begin(),
+                                                get<1>(moves_results).end() );
                 } else if (elementsCopy.size() % groupSize == 1) {
                     int move_position = position;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -145,11 +145,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     moveTripleBack(elementsCopy, move_position);
                     indexesOfMovedGroups.push_back(move_position);
                     moves = (int(elementsCopy.size()) - 3 - i) / groupSize;
-                    tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                    elementsCopy = get<0>(a);
+                    tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                    elementsCopy = get<0>(moves_results);
                     indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                                get<1>(a).begin(),
-                                                get<1>(a).end() );
+                                                get<1>(moves_results).begin(),
+                                                get<1>(moves_results).end() );
                 } else if (elementsCopy.size() % groupSize == 2) {
                     int move_position = position - 2;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -160,11 +160,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     moveTripleBack(elementsCopy, move_position);
                     indexesOfMovedGroups.push_back(move_position);
                     moves = (int(elementsCopy.size()) - 1 - i) / groupSize;
-                    tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                    elementsCopy = get<0>(a);
+                    tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                    elementsCopy = get<0>(moves_results);
                     indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                                get<1>(a).begin(),
-                                                get<1>(a).end() );
+                                                get<1>(moves_results).begin(),
+                                                get<1>(moves_results).end() );
                 }
             }
         }
@@ -172,11 +172,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
             int moves;
             if (position % groupSize == 2) {  // on position 3k + 2
                 moves = (position - i) / groupSize;
-                tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                elementsCopy = get<0>(a);
+                tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                elementsCopy = get<0>(moves_results);
                 indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                            get<1>(a).begin(),
-                                            get<1>(a).end() );
+                                            get<1>(moves_results).begin(),
+                                            get<1>(moves_results).end() );
             } else if (position % groupSize == 0 || position % groupSize == 1) {
                 if (elementsCopy.size() % groupSize == 0) {
                     int move_position = position - 2;
@@ -188,11 +188,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     moveTripleBack(elementsCopy, move_position);
                     indexesOfMovedGroups.push_back(move_position);
                     moves = (int(elementsCopy.size()) - 1 - i) / groupSize;
-                    tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                    elementsCopy = get<0>(a);
+                    tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                    elementsCopy = get<0>(moves_results);
                     indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                                get<1>(a).begin(),
-                                                get<1>(a).end() );
+                                                get<1>(moves_results).begin(),
+                                                get<1>(moves_results).end() );
                 } else if (elementsCopy.size() % groupSize == 1) {
                     int move_position = position - 1;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -203,11 +203,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     moveTripleBack(elementsCopy, move_position);
                     indexesOfMovedGroups.push_back(move_position);
                     moves = (int(elementsCopy.size()) - 2 - i) / groupSize;
-                    tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                    elementsCopy = get<0>(a);
+                    tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                    elementsCopy = get<0>(moves_results);
                     indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                                get<1>(a).begin(),
-                                                get<1>(a).end() );
+                                                get<1>(moves_results).begin(),
+                                                get<1>(moves_results).end() );
                 } else if (elementsCopy.size() % groupSize == 2) {
                     int move_position = position;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -218,11 +218,11 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     moveTripleBack(elementsCopy, move_position);
                     indexesOfMovedGroups.push_back(move_position);
                     moves = (int(elementsCopy.size()) - 3 - i) / groupSize;
-                    tuple <vector<RgbElement>, vector<int>> a = moveExpValToTheBeg(moves, elementsCopy, i);
-                    elementsCopy = get<0>(a);
+                    tuple <vector<RgbElement>, vector<int>> moves_results = moveExpValToTheBeg(moves, elementsCopy, i);
+                    elementsCopy = get<0>(moves_results);
                     indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                                get<1>(a).begin(),
-                                                get<1>(a).end() );
+                                                get<1>(moves_results).begin(),
+                                                get<1>(moves_results).end() );
                 }
             }
         }

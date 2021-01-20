@@ -103,14 +103,14 @@ Solution InitialTripleSearch::sort(const vector<RgbElement> &elements, int failu
         rgbGroupsAmount1 = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend());
         rgbGroupsAmount2 = rgbGroupsAmount1;
 
-        tuple <vector<RgbElement>, vector<int>> a = sortingStep(
+        tuple <vector<RgbElement>, vector<int>> sorting_step_results = sortingStep(
                 elementsCopy,
                 ((int) elementsCopy.size() % groupSize) + rgbGroupsAmount1 * groupSize,
                 groupSize);
-        elementsCopy = get<0>(a);
+        elementsCopy = get<0>(sorting_step_results);
         indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                    get<1>(a).begin(),
-                                    get<1>(a).end() );
+                                    get<1>(sorting_step_results).begin(),
+                                    get<1>(sorting_step_results).end() );
 
         rgbGroupsAmount1 = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend());
         if (rgbGroupsAmount1 == rgbGroupsAmount2) {
