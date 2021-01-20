@@ -4,6 +4,20 @@
 using namespace std;
 
 
+/// Counts rgb groups until it's found first non-rgb group
+int countFirstRgbGroups(std::vector<RgbElement>::const_iterator beg,
+                        std::vector<RgbElement>::const_iterator end) {
+    const int groupSize = kRgbElements.size();
+    const auto enoughElementsInNextGroup = [&beg, &end, &groupSize]() { return beg + (groupSize - 1) <= end; };
+    int groupsAmount = 0;
+    while (enoughElementsInNextGroup() && isRgbTriple(beg)) {
+        groupsAmount++;
+        beg += groupSize;
+    }
+    return groupsAmount;
+}
+
+
 vector<RgbElement> sortingStep(const vector<RgbElement> &elements, int startingPoint, int groupSize) {
     vector<RgbElement> elementsCopy(elements);
     int i = startingPoint;
@@ -21,7 +35,8 @@ vector<RgbElement> sortingStep(const vector<RgbElement> &elements, int startingP
     }
 
     // phase 2
-    int unsorted_balls = (int) elementsCopy.size() - sortedGroupsNumber * groupSize;
+    int unsorted_balls = (int) elementsCopy.size() - sortedGroupsNumber * groupSize -
+            countFirstRgbGroups(elementsCopy.cbegin(), elementsCopy.cend()) * groupSize;
     int required_moves = unsorted_balls / groupSize;
     for (int j = 0; j < required_moves; ++j) {
         RgbElement last_value = elementsCopy.back();
@@ -56,23 +71,9 @@ vector<RgbElement> sortingStep(const vector<RgbElement> &elements, int startingP
             unsorted_balls -= groupSize;
         }
     }
-    // TODO after phase 2 if the size is 3k+1 or 3k+2 at the beginning there is/are one/two unsorted ball(s).
     return elementsCopy;
 }
 
-
-/// Counts rgb groups until it's found first non-rgb group
-int countFirstRgbGroups(std::vector<RgbElement>::const_iterator beg,
-                        std::vector<RgbElement>::const_iterator end) {
-    const int groupSize = kRgbElements.size();
-    const auto enoughElementsInNextGroup = [&beg, &end, &groupSize]() { return beg + (groupSize - 1) <= end; };
-    int groupsAmount = 0;
-    while (enoughElementsInNextGroup() && isRgbTriple(beg)) {
-        groupsAmount++;
-        beg += groupSize;
-    }
-    return groupsAmount;
-}
 
 Solution InitialTripleSearch::sort(const vector<RgbElement> &elements, int maxRgbGroupsAmount) {
     vector<RgbElement> elementsCopy(elements);
@@ -91,6 +92,21 @@ Solution InitialTripleSearch::sort(const vector<RgbElement> &elements, int maxRg
 
         rgbGroupsAmount = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend());
     }
+//    int i = 0;
+//    while (i < 10) {
+//        rgbGroupsAmount = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend());
+//        cout << "Sorted groups number: " << rgbGroupsAmount << std::endl;
+//
+//        elementsCopy = sortingStep(
+//                elementsCopy,
+//                ((int) elementsCopy.size() % groupSize) + rgbGroupsAmount * groupSize,
+//                groupSize);
+//        cout << "Elements: " << elementsCopy << endl;
+//
+//        rgbGroupsAmount = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend());
+//        ++i;
+//    }
+
     cout << "Sorted groups number: " << rgbGroupsAmount << std::endl;
     return Solution(elementsCopy);
 }
