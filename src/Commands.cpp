@@ -48,16 +48,20 @@ bool advancedSortCm() {
     return true;
 }
 
-bool generateElementsCm(const RandomBallsGenerators generator, const int startingElementsAmount,
-                        const int numberOfElementsAdded, const int iterationsNumber, std::ostream& stream) {
+bool generateElements(const RandomBallsGenerator generator,
+                      const int startingElementsAmount,
+                      const int numberOfElementsAdded,
+                      const int iterationsNumber,
+                      std::ostream &stream) {
     for (int i = 0; i < iterationsNumber; ++i) {
         int elements_size = startingElementsAmount + i * numberOfElementsAdded;
         std::vector<RgbElement> elements(elements_size);
-        if (generator == RandomBallsGenerators::Random) {
+        if (generator == RandomBallsGenerator::Random) {
             std::generate(elements.begin(), elements.end(), [] {
                 return kRgbElements[randomUniformInteger(0, 2)];
             });
-        } else if (generator == RandomBallsGenerators::LinkedRandom) {
+        } else if (generator == RandomBallsGenerator::LinkedRandom) {
+//            TODO(@pochka15): maybe add to the arguments optional linkedRandomIntegersGenerator parameters
             const auto gen = linkedRandomIntegersGenerator(0.5, 0, 2);
             std::generate(elements.begin(), elements.end(), [&gen] {
                 return kRgbElements[gen()];
@@ -65,5 +69,35 @@ bool generateElementsCm(const RandomBallsGenerators generator, const int startin
         }
         stream << elements << std::endl;
     }
+    return true;
+}
+
+bool generateElementsCm(int argc, const char *argv[]) {
+    struct MyOpts {
+        string generator{};
+        int startingElementsAmount{};
+        int numberOfElementsAdded{};
+        int iterationsNumber{};
+    };
+
+    auto parser = CmdOpts<MyOpts>::Create(
+            {
+                    {"--generator",                &MyOpts::generator},
+                    {"--starting_elements_amount", &MyOpts::startingElementsAmount},
+                    {"--number_of_elements_added", &MyOpts::numberOfElementsAdded},
+                    {"--iterations_number",        &MyOpts::iterationsNumber}});
+
+    auto parsedOpts = parser->parse(argc, argv);
+    RandomBallsGenerator gen;
+    if (parsedOpts.generator == "rand")
+        gen = RandomBallsGenerator::Random;
+    else
+        gen = RandomBallsGenerator::LinkedRandom;
+
+    generateElements(gen,
+                     parsedOpts.startingElementsAmount,
+                     parsedOpts.numberOfElementsAdded,
+                     parsedOpts.iterationsNumber,
+                     std::cout);
     return true;
 }

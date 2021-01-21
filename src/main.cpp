@@ -1,21 +1,12 @@
 #include <iostream>
-#include <functional>
 #include <unordered_map>
-#include <utility>
 #include <vector>
 #include "Commands.h"
 #include "InteractionWithUser.h"
-#include "algorithm_lib/RgbAlgorithmUtilities.h"
-#include "algorithm_lib/BreadthSearch.h"
-#include "algorithm_lib/NaiveSorting.h"
-#include "algorithm_lib/InitialTripleSearch.h"
-#include "algorithm_lib/PrintingUtilities.h"
-#include "algorithm_lib/AdvancedSort.h"
-#include "algorithm_lib/TimeMeasurment.h"
 
 using namespace std;
 
-int main(int argc, char *argv[]) {
+int main(int argc, const char *argv[]) {
     if (argc == 1) {
         const std::vector<CommandWithoutArgs> allCommandsWithoutArgs = {
                 {"exit", "terminate the process",
@@ -39,19 +30,16 @@ int main(int argc, char *argv[]) {
         InteractionWithUser::interactWithUser(mappedCommandsWithoutArgs);
     } else { // Execute single command using argc, argv
         std::unordered_map<string, CommandWithoutArgs> mappedCommands = {
-                {"generate", {"generate", "generate a bunch of elements", [&]() {
-//        TODO(@pochka15): we need to parse the next snippet
-//--generate --generator uniform --starting_elements_amount 12 --number_of_elements_added 12 --iterations_number 100 >> generatedElements.txt
-//                    return generateElementsCm(parsedArguments);
-                    std::cout << argv[1] << std::endl;
-                    return true;
+                {"--generate", {"generate", "generate a bunch of elements", [&]() {
+                    return generateElementsCm(argc, argv);
                 }}}
         };
-        auto iter = mappedCommands.find(
-                "parsed command from user, e.x. user can give --generate, so we look for the generate command");
+        auto iter = mappedCommands.find(argv[1]);
         if (iter != mappedCommands.end()) {
             const CommandWithoutArgs &foundCommand = iter->second;
-            foundCommand.ececute();
+            foundCommand.execute();
+        } else {
+            std::cerr << "No command found" << std::endl;
         }
     }
     return 0;

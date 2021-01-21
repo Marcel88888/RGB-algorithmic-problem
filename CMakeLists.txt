@@ -8,7 +8,7 @@ add_subdirectory(lib/googletest)
 add_subdirectory(src/tests)
 add_subdirectory(src/algorithm_lib)
 
-add_executable(RGB_algorithmic_problem src/main.cpp src/InteractionWithUser.cpp src/InteractionWithUser.h src/Commands.cpp src/Commands.h)
+add_executable(RGB_algorithmic_problem src/main.cpp src/InteractionWithUser.cpp src/InteractionWithUser.h src/Commands.cpp src/Commands.h src/CommandLineArgumentsParsing.cpp src/CommandLineArgumentsParsing.h)
 target_link_libraries(RGB_algorithmic_problem algorithm_lib)
 
 

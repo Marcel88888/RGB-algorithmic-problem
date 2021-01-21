@@ -31,7 +31,7 @@ void InteractionWithUser::interactWithUser(const unordered_map<std::string,
         const auto iter = mappedCommandsWithoutArgs.find(enteredCommand);
         if (iter != mappedCommandsWithoutArgs.cend()) {
             const auto &cmd = iter->second;
-            shouldTerminate = !cmd.ececute();
+            shouldTerminate = !cmd.execute();
         } else {
             std::cout << "Command is not found!" << std::endl;
         }
