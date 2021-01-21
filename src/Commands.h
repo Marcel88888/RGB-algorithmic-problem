@@ -49,8 +49,8 @@ bool measureAdvancedCm();
 * number_of_elements_added: after each iteration it's increased the amount of elements by the number_of_elements_added
 * iterations_number: how many times we generate the values
 * */
-bool generateElementsCm(const RandomBallsGenerators generator, const int startingElementsAmount,
-                        const int numberOfElementsAdded, const int iterationsNumber, std::ostream& stream);
+bool generateElementsCm(RandomBallsGenerators generator, int startingElementsAmount, int numberOfElementsAdded,
+                        int iterationsNumber, std::ostream& stream);
 
 
 #endif //RGB_ALGORITHMIC_PROBLEM_COMMANDS_H
