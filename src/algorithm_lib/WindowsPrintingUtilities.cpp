@@ -1,3 +1,4 @@
+#if defined(_WIN32)
 #include "WindowsPrintingUtilities.h"
 #include "PrintingUtilities.h"
 
@@ -36,3 +37,5 @@ std::ostream &printWithHighlightedGroup(std::ostream &out,
     out << "]";
     return out;
 }
+
+#endif

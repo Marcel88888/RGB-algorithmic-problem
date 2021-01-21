@@ -39,12 +39,14 @@ bool advancedSortCm();
 bool measureAdvancedCm();
 
 //TODO(@pochka15):
-bool generateElementsCm(/*
- * fun generateValues(generator, starting_elements_amount, number_of_elements_added, iterations_number)
+bool generateElementsCm() {
+    /*  fun generateValues(generator, starting_elements_amount, number_of_elements_added, iterations_number)
  * generator type should be an enum value, see RandomUtilities
  * starting_elements_amount: the starting amount of generated elements will be equal to this value
  * number_of_elements_added: after each iteration it's increased the amount of elements by the number_of_elements_added
  * iterations_number: how many times we generate the values
- * */);
+ * */
+}
+
 
 #endif //RGB_ALGORITHMIC_PROBLEM_COMMANDS_H

@@ -4,5 +4,5 @@ add_library(algorithm_lib STATIC RgbAlgorithmUtilities.cpp BreadthSearch.cpp Ran
 
 if (UNIX)
     #    Time measurement
-    target_link_libraries(algorithm_lib librt)
+#    target_link_libraries(algorithm_lib librt)
 endif (UNIX)

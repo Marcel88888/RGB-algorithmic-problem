@@ -1,4 +1,4 @@
-
+#if defined(_WIN32)
 #ifndef RGB_ALGORITHMIC_PROBLEM_WINDOWSPRINTINGUTILITIES_H
 #define RGB_ALGORITHMIC_PROBLEM_WINDOWSPRINTINGUTILITIES_H
 
@@ -41,3 +41,4 @@ std::ostream &printWithHighlightedGroup(std::ostream &out,
 
 #endif //WIN
 #endif //RGB_ALGORITHMIC_PROBLEM_WINDOWSPRINTINGUTILITIES_H
+#endif
