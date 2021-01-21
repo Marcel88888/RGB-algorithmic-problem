@@ -1,11 +1,11 @@
 #include <iostream>
-#include "AdvancedSearch.h"
+#include "AdvancedSort.h"
 
 const int kGroupSize = kRgbElements.size();
 
-int AdvancedSearch::positionOfFirstMatchedGroup(const MatchingGroup &matchingGroup,
-                                                std::vector<RgbElement>::const_iterator beg,
-                                                std::vector<RgbElement>::const_iterator end) {
+int AdvancedSort::positionOfFirstMatchedGroup(const MatchingGroup &matchingGroup,
+                                              std::vector<RgbElement>::const_iterator beg,
+                                              std::vector<RgbElement>::const_iterator end) {
     int counter = 0;
     const int groupSize = kRgbElements.size();
     std::vector<RgbElement> currentTriple;
@@ -49,14 +49,14 @@ const inline std::vector<GroupsAndPositionOfMidTriple> groupsAndMidTriplePositio
                   MatchingGroup({AnyElement, G, B})},          1}};
 
 
-std::vector<int> AdvancedSearch::findPositionsOfMatchedGroups(
+std::vector<int> AdvancedSort::findPositionsOfMatchedGroups(
         std::vector<RgbElement>::const_iterator beg,
         std::vector<RgbElement>::const_iterator end,
         const std::vector<MatchingGroup> &matchingGroups) {
     std::vector<int> foundPositions;
     int offset = 0;
     for (const auto &group : matchingGroups) {
-        int foundPos = AdvancedSearch::positionOfFirstMatchedGroup(group, beg + offset, end);
+        int foundPos = AdvancedSort::positionOfFirstMatchedGroup(group, beg + offset, end);
         if (foundPos != -1) {
             foundPositions.push_back(foundPos + offset);
             offset = foundPos + kGroupSize;
@@ -79,7 +79,7 @@ bool makeMovements(
         const MatchingGroup &leftMatchingGroup = groupsAndPos.first.first;
         const MatchingGroup &rightMatchingGroup = groupsAndPos.first.second;
 
-        std::vector<int> foundPositions = AdvancedSearch::findPositionsOfMatchedGroups(
+        std::vector<int> foundPositions = AdvancedSort::findPositionsOfMatchedGroups(
                 elements.cbegin(),
                 elements.cbegin() + rightBoundExcluding,
                 {leftMatchingGroup, rightMatchingGroup});
@@ -116,8 +116,6 @@ Solution mergedSolutions(const Solution &s1, const Solution &s2, int startingInd
         elements.push_back(*it2++);
     }
 //    Push indexes
-    std::cout << "size of indexes 1 = " << s1.indexesOfMovedGroups.size() << std::endl;
-    std::cout << "size of indexes 2 = " << s2.indexesOfMovedGroups.size() << std::endl;
     for (int ind : s1.indexesOfMovedGroups) {
         positions.push_back(ind);
     }
@@ -128,7 +126,7 @@ Solution mergedSolutions(const Solution &s1, const Solution &s2, int startingInd
 }
 
 
-Solution AdvancedSearch::solution(const std::vector<RgbElement> &elements) {
+Solution AdvancedSort::solution(const std::vector<RgbElement> &elements) {
 //    Pre-checks
     if (elements.size() <= kGroupSize) return Solution(elements);
     if (elements.size() % 3 != 0) {
@@ -186,7 +184,7 @@ Solution AdvancedSearch::solution(const std::vector<RgbElement> &elements) {
     return Solution(elementsCopy, indexesOfMovedGroups);
 }
 
-std::vector<int> AdvancedSearch::positionsOfAllExistingRgbTriples(
+std::vector<int> AdvancedSort::positionsOfAllExistingRgbTriples(
         std::vector<RgbElement>::const_iterator beg,
         std::vector<RgbElement>::const_iterator end) {
     const auto leftMoreThan2Elements = [&beg, &end](int offset) { return beg + offset + 2 < end; };

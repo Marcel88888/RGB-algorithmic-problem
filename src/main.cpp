@@ -1,104 +1,117 @@
 #include <iostream>
 #include <sstream>
+#include <functional>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 #include "algorithm_lib/RgbAlgorithmUtilities.h"
 #include "algorithm_lib/BreadthSearch.h"
 #include "algorithm_lib/NaiveSorting.h"
 #include "algorithm_lib/InitialTripleSearch.h"
 #include "algorithm_lib/PrintingUtilities.h"
-#include <vector>
-//#include <bits/stdc++.h>
+#include "algorithm_lib/AdvancedSort.h"
 
 using namespace std;
 
-void printHelp() {
-    cout << "Help:" << endl << endl;
-    cout << "exit - exit program" << endl;
-    cout << "naive - NaiveSorting" << endl;
-    cout << "initial - InitialTripleSearch" << endl;
-    cout << "advanced - AdvancedSearch" << endl;
-    cout << "breadth - BreadthSearch" << endl;
-    cout << endl;
+struct CommandWithoutArgs {
+    string name;
+    string description;
+    /// must return false if execution finished incorrectly
+    function<bool()> executionFunction;
+
+    bool operator==(const CommandWithoutArgs &rhs) const {
+        return name == rhs.name &&
+               description == rhs.description;
+    }
+
+    bool operator!=(const CommandWithoutArgs &rhs) const {
+        return !(rhs == *this);
+    }
+
+    CommandWithoutArgs(string name,
+                       string description,
+                       function<bool()> runnable) :
+            name(std::move(name)), description(std::move(description)), executionFunction(std::move(runnable)) {}
+};
+
+bool printAllCommandsCm(const std::vector<CommandWithoutArgs> &allCommands) {
+    for (const auto &cmd : allCommands) {
+        std::cout << cmd.name << ": " << cmd.description << "\n";
+    }
+    std::cout << flush;
+    return true;
 }
 
-vector<string> splitWords(const string& str)
-{
+
+vector<string> splitWords(const string &str) {
     vector<string> splitWords;
     istringstream ss(str);
     string word;
-    while (ss >> word)
-    {
+    while (ss >> word) {
         splitWords.push_back(word);
     }
     return splitWords;
 }
 
+bool advancedSort() {
+    cout << "Enter the number of balls divisible by 3" << endl;
+    int ballsNumber;
+    cin >> ballsNumber;
+    vector<RgbElement> elements(ballsNumber);
+
+//  Use of the uniform distribution
+    generate(elements.begin(), elements.end(), [] {
+        return kRgbElements[randomUniformInteger(0, 2)];
+    });
+
+    cout << "Result:\n";
+    std::cout << elements << std::endl;
+    cout << AdvancedSort::solution(elements).arrangedElements << std::endl;
+    return true;
+}
+
+
 int main() {
-    bool running = true;
-    string command;
+    const std::vector<CommandWithoutArgs> allCommandsWithoutArgs = {
+            {"exit", "terminate the process",
+                    [] { return false; }},
+            {"help", "list all the commands",
+                    [&allCommandsWithoutArgs] {
+                        return printAllCommandsCm(allCommandsWithoutArgs);
+                    }},
+            {"adv",  "sort the balls using the advanced algorithm", advancedSort}
 
-    while (running)
-    {
-        vector<string> command_words;
-        cout << "rgbRobot$ ";
-        getline(cin, command);
-        command_words = splitWords(command);
-        cout << command_words << endl;
+//    cout << "naive - NaiveSorting" << endl;
+//    cout << "initial - InitialTripleSearch" << endl;
+//    cout << "advanced - AdvancedSearch" << endl;
+//    cout << "breadth - BreadthSearch" << endl;
+//    cout << endl;
+    };
 
-        if (command_words[0] == "exit" && command_words.size() == 1)
-            running = false;
-        else if (command_words[0] == "naive") {
-            if (command_words[1] == "-m1") {
-                if (command_words[2] == "<<" && command_words[4] == ">>" && command_words.size() == 6) {
 
-                }
-                else
-                    cout << "Invalid command." << endl;
-            } else if (command_words[1] == "-m2") {
-
-            } else if (command_words[1] == "-m3") {
-
-            }
-            else
-                cout << "Invalid command." << endl;
-        }
-        else if (command_words[0] == "initial") {
-            if (command_words[1] == "-m1") {
-
-            } else if (command_words[1] == "-m2") {
-
-            } else if (command_words[1] == "-m3") {
-
-            }
-            else
-                cout << "Invalid command." << endl;
-        }
-        else if (command_words[0] == "advanced") {
-            if (command_words[1] == "-m1") {
-
-            } else if (command_words[1] == "-m2") {
-
-            } else if (command_words[1] == "-m3") {
-
-            }
-            else
-                cout << "Invalid command." << endl;
-        }
-        else if (command_words[0] == "breadth") {
-            if (command_words[1] == "-m1") {
-
-            } else if (command_words[1] == "-m2") {
-
-            } else if (command_words[1] == "-m3") {
-
-            }
-            else
-                cout << "Invalid command." << endl;
-        }
-        else if (command_words[0] == "help" && command_words.size() == 1)
-            printHelp();
-        else
-            cout << "Command not found." << endl;
+    std::unordered_map<string, CommandWithoutArgs> mappedCommandsWithoutArgs;
+    for (const CommandWithoutArgs &cmd : allCommandsWithoutArgs) {
+        mappedCommandsWithoutArgs.insert(make_pair(cmd.name, cmd));
     }
 
+
+    bool shouldTerminate = false;
+    while (!shouldTerminate) {
+//        Read command
+        vector<string> commandWords;
+        cout << "Enter your command: " << flush;
+        string enteredCommand;
+        getline(cin, enteredCommand);
+        commandWords = splitWords(enteredCommand);
+        cout << commandWords << endl;
+//        Run mapped execution function
+        const auto iter = mappedCommandsWithoutArgs.find(enteredCommand);
+        if (iter != mappedCommandsWithoutArgs.cend()) {
+            const auto &cmd = iter->second;
+            shouldTerminate = !cmd.executionFunction();
+        } else {
+            std::cout << "Command is not found!" << std::endl;
+        }
+    }
     return 0;
 }

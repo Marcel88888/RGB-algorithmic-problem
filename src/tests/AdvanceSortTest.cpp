@@ -1,18 +1,18 @@
 #include <gtest/gtest.h>
-#include "algorithm_lib/AdvancedSearch.h"
+#include "algorithm_lib/AdvancedSort.h"
 
 
-TEST(AdvancedSearch, SolutionIndexesAreCalculatedCorrectly) {
+TEST(AdvancedSort, SolutionIndexesAreCalculatedCorrectly) {
     std::vector<RgbElement> elements = {R, G, R, R, G, B, G, G, B, R, G, B};
     std::vector<RgbElement> expectedArrangement = {R, G, B, R, G, B, R, G, B, R, G, G};
     std::vector<int> expectedIndexes = {3, 6, 0, 0, 8};
-    for (int i : AdvancedSearch::solution(elements).indexesOfMovedGroups) {
+    for (int i : AdvancedSort::solution(elements).indexesOfMovedGroups) {
         moveTripleBack(elements, i);
     }
     EXPECT_EQ(expectedArrangement, elements);
 }
 
-TEST(AdvancedSearch, ElementsAreArrangedCorrectly) {
+TEST(AdvancedSort, ElementsAreArrangedCorrectly) {
     std::vector<std::pair<std::vector<RgbElement>, std::vector<RgbElement>>> BeforeAfterSolution =
             {
                     {{R, G, G, R, B, B},                                              {R, G, B, G, R, B}},
@@ -21,6 +21,6 @@ TEST(AdvancedSearch, ElementsAreArrangedCorrectly) {
                     {{R, G, R, R, G, B, G, G, B, R, G, B},                            {R, G, B, R, G, B, R, G, B, R, G, G}},
                     {{B, R, G, B, R, G, G, G, G, G, G, G, B, R, G, B, R, G, B, G, G}, {R, G, B, R, G, B, R, G, B, R, G, B, G, G, G, B, G, G, G, G, G}}};
     for (const auto &pair : BeforeAfterSolution) {
-        EXPECT_EQ(AdvancedSearch::solution(pair.first).arrangedElements, pair.second);
+        EXPECT_EQ(AdvancedSort::solution(pair.first).arrangedElements, pair.second);
     }
 }

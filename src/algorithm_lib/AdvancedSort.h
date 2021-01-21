@@ -1,13 +1,13 @@
-#ifndef RGB_ALGORITHMIC_PROBLEM_ADVANCEDSEARCH_H
-#define RGB_ALGORITHMIC_PROBLEM_ADVANCEDSEARCH_H
+#ifndef RGB_ALGORITHMIC_PROBLEM_ADVANCEDSORT_H
+#define RGB_ALGORITHMIC_PROBLEM_ADVANCEDSORT_H
 
 #include "RgbAlgorithmUtilities.h"
 #include <vector>
-#include "AdvancedSearch.h"
+#include "AdvancedSort.h"
 #include "MatchingGroup.h"
 #include "WindowsPrintingUtilities.h"
 
-class AdvancedSearch {
+class AdvancedSort {
 public:
     static int positionOfFirstMatchedGroup(const MatchingGroup &matchingGroup,
                                            std::vector<RgbElement>::const_iterator beg,
@@ -36,4 +36,4 @@ public:
 };
 
 
-#endif //RGB_ALGORITHMIC_PROBLEM_ADVANCEDSEARCH_H
+#endif //RGB_ALGORITHMIC_PROBLEM_ADVANCEDSORT_H
