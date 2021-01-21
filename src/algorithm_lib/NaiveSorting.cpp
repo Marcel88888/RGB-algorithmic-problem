@@ -1,5 +1,4 @@
 #include "NaiveSorting.h"
-#include <tuple>
 
 using namespace std;
 

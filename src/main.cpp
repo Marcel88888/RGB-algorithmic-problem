@@ -1,9 +1,9 @@
 #include <iostream>
 #include <sstream>
-//#include "algorithm_lib/RgbAlgorithmUtilities.h"
+#include "algorithm_lib/RgbAlgorithmUtilities.h"
 #include "algorithm_lib/BreadthSearch.h"
-//#include "algorithm_lib/NaiveSorting.h"
-//#include "algorithm_lib/InitialTripleSearch.h"
+#include "algorithm_lib/NaiveSorting.h"
+#include "algorithm_lib/InitialTripleSearch.h"
 #include "algorithm_lib/PrintingUtilities.h"
 #include <vector>
 //#include <bits/stdc++.h>

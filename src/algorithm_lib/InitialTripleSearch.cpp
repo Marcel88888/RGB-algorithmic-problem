@@ -1,9 +1,6 @@
 #include "InitialTripleSearch.h"
-#include "RgbAlgorithmUtilities.h"
-#include <algorithm>
 
 using namespace std;
-
 
 /// Counts rgb groups until it's found first non-rgb group
 int countFirstRgbGroups(std::vector<RgbElement>::const_iterator beg,

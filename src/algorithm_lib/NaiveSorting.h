@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "RgbAlgorithmUtilities.h"
+#include <tuple>
 
 class NaiveSorting {
 
