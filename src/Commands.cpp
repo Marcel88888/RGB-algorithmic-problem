@@ -48,11 +48,11 @@ bool advancedSortCm() {
     return true;
 }
 
-bool generateElements(const RandomBallsGenerator generator,
+std::vector<std::vector<RgbElement>> generateElements(const RandomBallsGenerator generator,
                       const int startingElementsAmount,
                       const int numberOfElementsAdded,
-                      const int iterationsNumber,
-                      std::ostream &stream) {
+                      const int iterationsNumber) {
+    std::vector<std::vector<RgbElement>> all_elements;
     for (int i = 0; i < iterationsNumber; ++i) {
         int elements_size = startingElementsAmount + i * numberOfElementsAdded;
         std::vector<RgbElement> elements(elements_size);
@@ -67,9 +67,9 @@ bool generateElements(const RandomBallsGenerator generator,
                 return kRgbElements[gen()];
             });
         }
-        stream << elements << std::endl;
+        all_elements.push_back(elements);
     }
-    return true;
+    return all_elements;
 }
 
 bool generateElementsCm(int argc, const char *argv[]) {
@@ -88,16 +88,65 @@ bool generateElementsCm(int argc, const char *argv[]) {
                     {"--iterations_number",        &MyOpts::iterationsNumber}});
 
     auto parsedOpts = parser->parse(argc, argv);
-    RandomBallsGenerator gen;
-    if (parsedOpts.generator == "rand")
-        gen = RandomBallsGenerator::Random;
-    else
-        gen = RandomBallsGenerator::LinkedRandom;
+//    RandomBallsGenerator gen;
+//    if (parsedOpts.generator == "rand")
+//        gen = RandomBallsGenerator::Random;
+//    else
+//        gen = RandomBallsGenerator::LinkedRandom;
 
-    generateElements(gen,
-                     parsedOpts.startingElementsAmount,
-                     parsedOpts.numberOfElementsAdded,
-                     parsedOpts.iterationsNumber,
-                     std::cout);
+//    generateElements(gen,
+//                     parsedOpts.startingElementsAmount,
+//                     parsedOpts.numberOfElementsAdded,
+//                     parsedOpts.iterationsNumber,
+//                     std::cout);
     return true;
+}
+
+void doTimeTest(SortingAlgorithms algorithm,
+                int startingElementsAmount,
+                int numberOfElementsAdded,
+                int iterationsNumber,
+                const string& fileName) {
+    std::ofstream outfile (fileName);
+    vector<vector<RgbElement>> all_elements = generateElements(RandomBallsGenerator::Random,
+                                                               startingElementsAmount,
+                                                               numberOfElementsAdded,
+                                                               iterationsNumber);
+    outfile << fileName << " startingElementsAmount: " << startingElementsAmount <<
+    " numberOfElementsAdded: " << numberOfElementsAdded <<
+    " iterationsNumber: " << iterationsNumber << "\n";
+    int i = 0;
+    for (auto & elements : all_elements) {
+        if (algorithm == SortingAlgorithms::NaiveSorting) {
+            outfile << elements.size() << "\n";
+            int max_rgb_groups_amount = maxRgbGroupsAmount(elements);
+            double time = elapsedTime([&] {
+                cout << NaiveSorting::sort(elements, max_rgb_groups_amount).arrangedElements << std::endl;
+            });
+            outfile << time << "\n";
+        }
+        else if (algorithm == SortingAlgorithms::InitialTripleSearch) {
+            outfile << elements.size() << "\n";
+            double time = elapsedTime([&] {
+                cout << InitialTripleSearch::sort(elements, (int)elements.size()/100).arrangedElements << std::endl;
+            });
+            outfile << time << "\n";
+        }
+        else if (algorithm == SortingAlgorithms::AdvancedSort) {
+            outfile << elements.size() << "\n";
+            double time = elapsedTime([&] {
+                cout << AdvancedSort::solution(elements).arrangedElements << std::endl;
+            });
+            outfile << time << "\n";
+        }
+        else if (algorithm == SortingAlgorithms::BreadthSearch) {
+            outfile << elements.size() << "\n";
+            double time = elapsedTime([&] {
+                cout << BreadthSearchAlgorithm::solution(elements).arrangedElements << std::endl;
+            });
+            outfile << time << "\n";
+        }
+        ++i;
+    }
+    outfile.close();
 }

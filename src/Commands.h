@@ -5,11 +5,23 @@
 #include <functional>
 #include <iostream>
 #include <ostream>
+#include <fstream>
 #include "algorithm_lib/PrintingUtilities.h"
 #include "algorithm_lib/TimeMeasurment.h"
 #include "algorithm_lib/RgbAlgorithmUtilities.h"
 #include "algorithm_lib/AdvancedSort.h"
+#include "algorithm_lib/BreadthSearch.h"
+#include "algorithm_lib/NaiveSorting.h"
+#include "algorithm_lib/InitialTripleSearch.h"
 #include "CommandLineArgumentsParsing.h"
+
+
+enum SortingAlgorithms {
+    AdvancedSort,
+    BreadthSearch,
+    InitialTripleSearch,
+    NaiveSorting,
+};
 
 
 enum RandomBallsGenerator {
@@ -46,6 +58,12 @@ bool advancedSortCm();
 bool measureAdvancedCm();
 
 bool generateElementsCm(int argc, const char *argv[]);
+
+void doTimeTest(SortingAlgorithms algorithm,
+                int startingElementsAmount,
+                int numberOfElementsAdded,
+                int iterationsNumber,
+                const string& fileName);
 
 
 #endif //RGB_ALGORITHMIC_PROBLEM_COMMANDS_H
