@@ -1,7 +1,9 @@
 
 #include "MatchingGroup.h"
+#include "PrintingUtilities.h"
 
-bool MatchingGroup::matches(std::vector<RgbElement>::const_iterator beg, std::vector<RgbElement>::const_iterator end) {
+bool MatchingGroup::matches(std::vector<RgbElement>::const_iterator beg,
+                            std::vector<RgbElement>::const_iterator end) const {
     for (const auto &element : elements) {
         if (beg != end) {
             const auto &cur = *beg;
@@ -25,15 +27,22 @@ bool MatchingGroup::operator!=(const MatchingGroup &rhs) const {
 }
 
 std::ostream &operator<<(std::ostream &os, const MatchingGroup &group) {
-    os << "[";
-    for (const auto &element : group.elements) {
-        if (!element.has_value()) {
+    os << '[';
+    auto iter = group.elements.cbegin();
+    while (iter < group.elements.cend() - 1) {
+        const auto &opt = *iter;
+        if (!opt.has_value()) {
             os << "Any, ";
         } else {
-            os << element.value() << ", ";
+            os << (opt.value()) << ", ";
         }
+        iter = next(iter);
     }
-    os << "\b\b]";
+    const auto &lastOpt = *iter;
+    if (lastOpt.has_value())
+        os << iter->value() << "]";
+    else
+        os << "Any]";
     return os;
 }
 

@@ -1,4 +1,3 @@
-#include "InitialTripleSearch.h"
 #include "RgbAlgorithmUtilities.h"
 
 bool areElementsArrangedCorrectly(const std::vector<RgbElement> &elements, int maxRgbGroupsAmount) {
@@ -18,15 +17,6 @@ bool Solution::operator==(const Solution &rhs) const {
            indexesOfMovedGroups == rhs.indexesOfMovedGroups;
 }
 
-std::ostream &operator<<(std::ostream &os, const Solution &solution) {
-    os << "Elements: " << solution.arrangedElements << ", indexes: " << solution.indexesOfMovedGroups;
-    return os;
-}
-
-std::ostream &operator<<(std::ostream &os, const RgbElement &other) {
-    os << (char) other;
-    return os;
-}
 
 int maxRgbGroupsAmount(const std::vector<RgbElement> &elements) {
     int rCount = 0;

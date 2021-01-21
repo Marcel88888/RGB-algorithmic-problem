@@ -7,6 +7,7 @@
 #include <vector>
 #include <ostream>
 #include "RgbAlgorithmUtilities.h"
+#include "WindowsPrintingUtilities.h"
 
 inline const std::nullopt_t AnyElement = std::nullopt;
 
@@ -21,8 +22,8 @@ public:
 
     std::vector<std::optional<RgbElement>> elements;
 
-    bool matches(std::vector<RgbElement>::const_iterator beg,
-                 std::vector<RgbElement>::const_iterator end);
+    [[nodiscard]] bool matches(std::vector<RgbElement>::const_iterator beg,
+                               std::vector<RgbElement>::const_iterator end) const;
 
     friend std::ostream &operator<<(std::ostream &os, const MatchingGroup &group);
 };

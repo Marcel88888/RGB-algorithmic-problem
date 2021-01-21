@@ -1,5 +1,4 @@
 #include "InitialTripleSearch.h"
-#include "RgbAlgorithmUtilities.h"
 
 using namespace std;
 
@@ -87,7 +86,7 @@ Solution InitialTripleSearch::sort(const vector<RgbElement> &elements, int maxRg
                 elementsCopy,
                 ((int) elementsCopy.size() % groupSize) + rgbGroupsAmount * groupSize,
                 groupSize);
-        cout << "Elements: " << elementsCopy << endl;
+//        cout << "Elements: " << elementsCopy << endl;
 
         rgbGroupsAmount = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend());
     }

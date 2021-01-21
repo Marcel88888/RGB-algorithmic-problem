@@ -5,10 +5,11 @@
 #include <vector>
 #include "AdvancedSearch.h"
 #include "MatchingGroup.h"
+#include "WindowsPrintingUtilities.h"
 
 class AdvancedSearch {
 public:
-    static int positionOfFirstMatchedGroup(MatchingGroup matchingGroup,
+    static int positionOfFirstMatchedGroup(const MatchingGroup &matchingGroup,
                                            std::vector<RgbElement>::const_iterator beg,
                                            std::vector<RgbElement>::const_iterator end);
 

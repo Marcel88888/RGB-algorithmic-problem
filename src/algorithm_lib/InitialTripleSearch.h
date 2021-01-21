@@ -5,15 +5,14 @@
 #include <iostream>
 #include "RgbAlgorithmUtilities.h"
 #include "NaiveSorting.h"
+//#include "PrintingUtilities.h"
 
 using namespace std;
 
 
 class InitialTripleSearch {
-
 public:
     static Solution sort(const vector<RgbElement> &elements, int maxRgbGroupsAmount);
-
 };
 
 

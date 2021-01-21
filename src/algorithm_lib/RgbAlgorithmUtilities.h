@@ -9,7 +9,6 @@
 #include <ostream>
 #include "RandomUtilities.h"
 
-
 enum RgbElement {
     R = 'R',
     G = 'G',
@@ -17,20 +16,6 @@ enum RgbElement {
 };
 
 inline const std::vector<RgbElement> kRgbElements = {R, G, B};
-
-std::ostream &operator<<(std::ostream &os, const RgbElement &other);
-
-template<typename T>
-std::ostream &operator<<(std::ostream &out, const std::vector<T> &v) {
-    if (!v.empty()) {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-        out << "\b\b]";
-    } else {
-        out << "[]";
-    }
-    return out;
-}
 
 /// The structure that represents the solution for the rgb problem. It has a vector of arranged elements which
 /// represents a sequence of rgb elements after moving all the groups of elements to the end of the sequence.
@@ -49,8 +34,6 @@ struct Solution {
     std::vector<int> indexesOfMovedGroups;
 
     bool operator==(const Solution &rhs) const;
-
-    friend std::ostream &operator<<(std::ostream &os, const Solution &solution);
 };
 
 /// Move a sequence of 3 vector elements to the end of the vector. E.x. we get 1, 2, 3, 4, 5 -> 1, 5, 2, 3, 4 if we want to move a triple at index 1 to the end
@@ -59,8 +42,8 @@ struct Solution {
 /// \param triplePosition: an value from 0 to (elements.size() - 3 inclusively). This must be an index of the first element of a subsequence, containing 3 elements that will be moved to the end of the elements vector
 /// \return the given elements
 template<typename T>
-std::vector<T> &moveTripleBack(std::vector<T> &elements, int triplePosition) {
-    if (triplePosition < (int) elements.size() - kRgbElements.size()) {
+std::vector<T> &moveTripleBack(std::vector<T> &elements, size_t triplePosition) {
+    if (triplePosition < elements.size() - kRgbElements.size()) {
         std::rotate(elements.begin() + triplePosition,
                     elements.begin() + triplePosition + 3,
                     elements.end());
