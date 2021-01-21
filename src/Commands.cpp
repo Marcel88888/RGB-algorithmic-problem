@@ -1,4 +1,3 @@
-
 #include "Commands.h"
 
 using namespace std;
@@ -46,5 +45,25 @@ bool advancedSortCm() {
     cout << "Result:\n";
     std::cout << elements << std::endl;
     cout << AdvancedSort::solution(elements).arrangedElements << std::endl;
+    return true;
+}
+
+bool generateElementsCm(const RandomBallsGenerators generator, const int startingElementsAmount,
+                        const int numberOfElementsAdded, const int iterationsNumber, std::ostream& stream) {
+    for (int i = 0; i < iterationsNumber; ++i) {
+        int elements_size = startingElementsAmount + i * numberOfElementsAdded;
+        std::vector<RgbElement> elements(elements_size);
+        if (generator == RandomBallsGenerators::Random) {
+            std::generate(elements.begin(), elements.end(), [] {
+                return kRgbElements[randomUniformInteger(0, 2)];
+            });
+        } else if (generator == RandomBallsGenerators::LinkedRandom) {
+            const auto gen = linkedRandomIntegersGenerator(0.5, 0, 2);
+            std::generate(elements.begin(), elements.end(), [&gen] {
+                return kRgbElements[gen()];
+            });
+        }
+        stream << elements << std::endl;
+    }
     return true;
 }

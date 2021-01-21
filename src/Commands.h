@@ -1,14 +1,19 @@
-
 #ifndef RGB_ALGORITHMIC_PROBLEM_COMMANDS_H
 #define RGB_ALGORITHMIC_PROBLEM_COMMANDS_H
 
 #include <string>
 #include <functional>
 #include <iostream>
+#include <ostream>
 #include "algorithm_lib/PrintingUtilities.h"
 #include "algorithm_lib/TimeMeasurment.h"
 #include "algorithm_lib/RgbAlgorithmUtilities.h"
 #include "algorithm_lib/AdvancedSort.h"
+
+enum RandomBallsGenerators {
+    Random,
+    LinkedRandom
+};
 
 struct CommandWithoutArgs {
     std::string name;
@@ -38,15 +43,14 @@ bool advancedSortCm();
 
 bool measureAdvancedCm();
 
-//TODO(@pochka15):
-bool generateElementsCm() {
-    /*  fun generateValues(generator, starting_elements_amount, number_of_elements_added, iterations_number)
- * generator type should be an enum value, see RandomUtilities
- * starting_elements_amount: the starting amount of generated elements will be equal to this value
- * number_of_elements_added: after each iteration it's increased the amount of elements by the number_of_elements_added
- * iterations_number: how many times we generate the values
- * */
-}
+/*fun generateValues(generator, starting_elements_amount, number_of_elements_added, iterations_number)
+* generator type should be an enum value, see RandomUtilities
+* starting_elements_amount: the starting amount of generated elements will be equal to this value
+* number_of_elements_added: after each iteration it's increased the amount of elements by the number_of_elements_added
+* iterations_number: how many times we generate the values
+* */
+bool generateElementsCm(const RandomBallsGenerators generator, const int startingElementsAmount,
+                        const int numberOfElementsAdded, const int iterationsNumber, std::ostream& stream);
 
 
 #endif //RGB_ALGORITHMIC_PROBLEM_COMMANDS_H

@@ -54,6 +54,5 @@ int main(int argc, char *argv[]) {
             foundCommand.ececute();
         }
     }
-
     return 0;
 }
