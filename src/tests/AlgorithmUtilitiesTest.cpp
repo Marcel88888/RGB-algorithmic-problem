@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "algorithm_lib/RgbAlgorithmUtilities.h"
+#include "algorithm_lib/PrintingUtilities.h"
 
 template<typename T>
 struct TestData {

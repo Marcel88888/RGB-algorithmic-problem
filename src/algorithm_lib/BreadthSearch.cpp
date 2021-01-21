@@ -53,3 +53,4 @@ Solution BreadthSearchAlgorithm::solution(const std::vector<RgbElement> &element
     }
     return recursiveSolution(elements, nextNodes, kChildNodesNumber, kMaxRgbGroupsAmount);
 }
+

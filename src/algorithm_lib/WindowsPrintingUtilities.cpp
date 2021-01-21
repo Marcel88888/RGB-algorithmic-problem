@@ -13,22 +13,6 @@ void WindowsPrintingUtilities::colored(const std::function<void()> &runnable, Co
 }
 
 
-std::ostream &joined(std::ostream &out, std::vector<RgbElement>::const_iterator beg,
-                     std::vector<RgbElement>::const_iterator end) {
-    while (beg != end) {
-        const RgbElement &prev = *beg++;
-        out << prev;
-        if (beg != end) {
-            const RgbElement &next = *beg++;
-            out << ", " << next;
-            if (beg != end) {
-                out << ", ";
-            }
-        }
-    }
-    return out;
-}
-
 std::ostream &printWithHighlightedGroup(std::ostream &out,
                                         const std::vector<RgbElement> &elements,
                                         int indexOfHighlightedGroup,
@@ -41,14 +25,14 @@ std::ostream &printWithHighlightedGroup(std::ostream &out,
     }
     int nextOffset = offset + 3;
     WindowsPrintingUtilities::colored([&] {
-        joined(out, elements.cbegin() + offset, elements.cbegin() + nextOffset);
+        printJoined<RgbElement>(out, elements.cbegin() + offset, elements.cbegin() + nextOffset);
     }, color);
     offset = nextOffset;
 
     if (offset < elements.size())
         out << ", ";
 
-    joined(out, elements.cbegin() + offset, elements.cend());
+    printJoined<RgbElement>(out, elements.cbegin() + offset, elements.cend());
     out << "]";
     return out;
 }

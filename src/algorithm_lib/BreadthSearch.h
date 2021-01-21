@@ -16,7 +16,7 @@ struct Node {
     Node(T nodeValue, std::shared_ptr<Node<T>> parentNodePtr) :
             nodeValue(std::move(nodeValue)), parentNodePtr(std::move(parentNodePtr)) {}
 
-    friend std::ostream &operator<<(std::ostream &os, const Node &node) {
+    friend std::ostream &operator<<(std::ostream &os, const Node<T> &node) {
         os << "{" << node.nodeValue << ", " << node.parentNodePtr.get() << "}";
         return os;
     }

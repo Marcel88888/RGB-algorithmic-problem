@@ -18,3 +18,13 @@ std::ostream &operator<<(std::ostream &os, const RgbElement &other) {
     os << (char) other;
     return os;
 }
+
+std::ostream &operator<<(std::ostream &os, const std::vector<std::string> &v) {
+    printJoined<std::string>(os, v.cbegin(), v.cend());
+    return os;
+}
+
+std::ostream &operator<<(std::ostream &os, const std::vector<int> &v) {
+    printJoined<int>(os, v.cbegin(), v.cend());
+    return os;
+}
