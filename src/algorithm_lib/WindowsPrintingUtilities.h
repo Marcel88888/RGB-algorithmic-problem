@@ -2,6 +2,8 @@
 #ifndef RGB_ALGORITHMIC_PROBLEM_WINDOWSPRINTINGUTILITIES_H
 #define RGB_ALGORITHMIC_PROBLEM_WINDOWSPRINTINGUTILITIES_H
 
+#if defined(_WIN32)
+
 #include <windows.h>
 #include "RgbAlgorithmUtilities.h"
 #include "PrintingUtilities.h"
@@ -37,4 +39,5 @@ std::ostream &printWithHighlightedGroup(std::ostream &out,
                                         int indexOfHighlightedGroup,
                                         Color color);
 
+#endif //WIN
 #endif //RGB_ALGORITHMIC_PROBLEM_WINDOWSPRINTINGUTILITIES_H

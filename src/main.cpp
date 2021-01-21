@@ -10,6 +10,7 @@
 #include "algorithm_lib/InitialTripleSearch.h"
 #include "algorithm_lib/PrintingUtilities.h"
 #include "algorithm_lib/AdvancedSort.h"
+#include "algorithm_lib/TimeMeasurment.h"
 
 using namespace std;
 
@@ -71,15 +72,37 @@ bool advancedSort() {
 }
 
 
+bool measureAdvanced() {
+    cout << "Enter the number of balls divisible by 3" << endl;
+    int ballsNumber;
+    cin >> ballsNumber;
+    vector<RgbElement> elements(ballsNumber);
+
+//  Use of the uniform distribution
+    generate(elements.begin(), elements.end(), [] {
+        return kRgbElements[randomUniformInteger(0, 2)];
+    });
+
+    cout << "Result:\n";
+    std::cout << elements << std::endl;
+    double t = elapsedTime([&] {
+        cout << AdvancedSort::solution(elements).arrangedElements << std::endl;
+    });
+    fprintf(stdout, "CPU time used = %lf\n", t);
+
+    return true;
+}
+
 int main() {
     const std::vector<CommandWithoutArgs> allCommandsWithoutArgs = {
             {"exit", "terminate the process",
                     [] { return false; }},
             {"help", "list all the commands",
-                    [&allCommandsWithoutArgs] {
-                        return printAllCommandsCm(allCommandsWithoutArgs);
-                    }},
-            {"adv",  "sort the balls using the advanced algorithm", advancedSort}
+                    [&allCommandsWithoutArgs] { return printAllCommandsCm(allCommandsWithoutArgs); }},
+            {"adv",  "sort the balls using the advanced algorithm",
+                    advancedSort},
+            {"mes",  "Measure time of the advanced algorithm",
+                    measureAdvanced}
 
 //    cout << "naive - NaiveSorting" << endl;
 //    cout << "initial - InitialTripleSearch" << endl;
@@ -87,7 +110,6 @@ int main() {
 //    cout << "breadth - BreadthSearch" << endl;
 //    cout << endl;
     };
-
 
     std::unordered_map<string, CommandWithoutArgs> mappedCommandsWithoutArgs;
     for (const CommandWithoutArgs &cmd : allCommandsWithoutArgs) {
