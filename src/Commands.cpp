@@ -49,9 +49,9 @@ bool advancedSortCm() {
 }
 
 std::vector<std::vector<RgbElement>> generateElements(const RandomBallsGenerator generator,
-                      const int startingElementsAmount,
-                      const int numberOfElementsAdded,
-                      const int iterationsNumber) {
+                                                      const int startingElementsAmount,
+                                                      const int numberOfElementsAdded,
+                                                      const int iterationsNumber) {
     std::vector<std::vector<RgbElement>> all_elements;
     for (int i = 0; i < iterationsNumber; ++i) {
         int elements_size = startingElementsAmount + i * numberOfElementsAdded;
@@ -88,58 +88,56 @@ bool generateElementsCm(int argc, const char *argv[]) {
                     {"--iterations_number",        &MyOpts::iterationsNumber}});
 
     auto parsedOpts = parser->parse(argc, argv);
-//    RandomBallsGenerator gen;
-//    if (parsedOpts.generator == "rand")
-//        gen = RandomBallsGenerator::Random;
-//    else
-//        gen = RandomBallsGenerator::LinkedRandom;
-
-//    generateElements(gen,
-//                     parsedOpts.startingElementsAmount,
-//                     parsedOpts.numberOfElementsAdded,
-//                     parsedOpts.iterationsNumber,
-//                     std::cout);
+    RandomBallsGenerator generatorType;
+    if (parsedOpts.generator == "rand")
+        generatorType = RandomBallsGenerator::Random;
+    else
+        generatorType = RandomBallsGenerator::LinkedRandom;
+    const vector<std::vector<RgbElement>> &generatedElements = generateElements(
+            generatorType, parsedOpts.startingElementsAmount,
+            parsedOpts.numberOfElementsAdded, parsedOpts.iterationsNumber);
+    for (const std::vector<RgbElement> &elements : generatedElements) {
+        std::cout << elements << std::endl;
+    }
     return true;
 }
 
-void doTimeTest(SortingAlgorithms algorithm,
-                int startingElementsAmount,
-                int numberOfElementsAdded,
-                int iterationsNumber,
-                const string& fileName) {
-    std::ofstream outfile (fileName);
-    vector<vector<RgbElement>> all_elements = generateElements(RandomBallsGenerator::Random,
-                                                               startingElementsAmount,
-                                                               numberOfElementsAdded,
-                                                               iterationsNumber);
+void measureAlgorithmExecutionTime(SortingAlgorithm algorithm,
+                                   int startingElementsAmount,
+                                   int numberOfElementsAdded,
+                                   int iterationsNumber,
+                                   const string &fileName) {
+    std::ofstream outfile(fileName);
+    vector<vector<RgbElement>> generatedElements = generateElements(
+            RandomBallsGenerator::Random,
+            startingElementsAmount,
+            numberOfElementsAdded,
+            iterationsNumber);
     outfile << fileName << " startingElementsAmount: " << startingElementsAmount <<
-    " numberOfElementsAdded: " << numberOfElementsAdded <<
-    " iterationsNumber: " << iterationsNumber << "\n";
+            " numberOfElementsAdded: " << numberOfElementsAdded <<
+            " iterationsNumber: " << iterationsNumber << "\n";
     int i = 0;
-    for (auto & elements : all_elements) {
-        if (algorithm == SortingAlgorithms::NaiveSorting) {
+    for (const auto &elements : generatedElements) {
+        if (algorithm == SortingAlgorithm::NaiveSorting) {
             outfile << elements.size() << "\n";
-            int max_rgb_groups_amount = maxRgbGroupsAmount(elements);
+            const int kMaxRgbGroupsAmount = maxRgbGroupsAmount(elements);
             double time = elapsedTime([&] {
-                cout << NaiveSorting::sort(elements, max_rgb_groups_amount).arrangedElements << std::endl;
+                cout << NaiveSorting::sort(elements, kMaxRgbGroupsAmount).arrangedElements << std::endl;
             });
             outfile << time << "\n";
-        }
-        else if (algorithm == SortingAlgorithms::InitialTripleSearch) {
+        } else if (algorithm == SortingAlgorithm::InitialTripleSearch) {
             outfile << elements.size() << "\n";
             double time = elapsedTime([&] {
-                cout << InitialTripleSearch::sort(elements, (int)elements.size()/100).arrangedElements << std::endl;
+                cout << InitialTripleSearch::sort(elements, (int) elements.size() / 100).arrangedElements << std::endl;
             });
             outfile << time << "\n";
-        }
-        else if (algorithm == SortingAlgorithms::AdvancedSort) {
+        } else if (algorithm == SortingAlgorithm::AdvancedSort) {
             outfile << elements.size() << "\n";
             double time = elapsedTime([&] {
                 cout << AdvancedSort::solution(elements).arrangedElements << std::endl;
             });
             outfile << time << "\n";
-        }
-        else if (algorithm == SortingAlgorithms::BreadthSearch) {
+        } else if (algorithm == SortingAlgorithm::BreadthSearch) {
             outfile << elements.size() << "\n";
             double time = elapsedTime([&] {
                 cout << BreadthSearchAlgorithm::solution(elements).arrangedElements << std::endl;

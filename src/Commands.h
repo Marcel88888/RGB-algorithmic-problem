@@ -6,6 +6,7 @@
 #include <iostream>
 #include <ostream>
 #include <fstream>
+#include "algorithm_lib/RgbAlgorithmUtilities.h"
 #include "algorithm_lib/PrintingUtilities.h"
 #include "algorithm_lib/TimeMeasurment.h"
 #include "algorithm_lib/RgbAlgorithmUtilities.h"
@@ -16,7 +17,7 @@
 #include "CommandLineArgumentsParsing.h"
 
 
-enum SortingAlgorithms {
+enum SortingAlgorithm {
     AdvancedSort,
     BreadthSearch,
     InitialTripleSearch,
@@ -59,11 +60,11 @@ bool measureAdvancedCm();
 
 bool generateElementsCm(int argc, const char *argv[]);
 
-void doTimeTest(SortingAlgorithms algorithm,
-                int startingElementsAmount,
-                int numberOfElementsAdded,
-                int iterationsNumber,
-                const string& fileName);
+void measureAlgorithmExecutionTime(SortingAlgorithm algorithm,
+                                   int startingElementsAmount,
+                                   int numberOfElementsAdded,
+                                   int iterationsNumber,
+                                   const string &fileName);
 
 
 #endif //RGB_ALGORITHMIC_PROBLEM_COMMANDS_H
