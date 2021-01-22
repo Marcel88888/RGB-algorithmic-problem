@@ -19,16 +19,23 @@ int tmp() {
     return 0;
 }
 
+
 int main(int argc, const char *argv[]) {
     if (argc == 1) {
         const std::vector<CommandWithoutArgs> allCommandsWithoutArgs = {
-                {"exit", "terminate the process",
+                {"exit",    "terminate the process",
                         [] { return false; }},
-                {"help", "list all the commands",
+                {"help",    "list all the commands",
                         [&allCommandsWithoutArgs] { return printAllCommandsCm(allCommandsWithoutArgs); }},
-                {"adv",  "sort the balls using the advanced algorithm",
+                {"adv",     "sort the balls using the advanced algorithm",
                         advancedSortCm},
-                {"mes",  "Measure time of the advanced algorithm",
+                {"naive",   "sort the balls using the naive sorting algorithm",
+                        naiveSortCm},
+                {"breadth", "sort the balls using the breadth search algorithm",
+                        breadthSearchCm},
+                {"ini",     "sort the balls using the initialTripleSearch algorithm",
+                        initialTripleCm},
+                {"meas",    "Measure time of the advanced algorithm",
                         measureAdvancedCm}
         };
         std::unordered_map<string, CommandWithoutArgs> mappedCommandsWithoutArgs;

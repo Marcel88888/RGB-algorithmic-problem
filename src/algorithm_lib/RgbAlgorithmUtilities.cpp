@@ -23,9 +23,9 @@ int maxRgbGroupsAmount(const std::vector<RgbElement> &elements) {
     int gCount = 0;
     int bCount = 0;
     for (const auto &elem : elements) {
-        if (elem == 'R') rCount++;
-        else if (elem == 'G') gCount++;
-        else if (elem == 'B') bCount++;
+        if (elem == R) rCount++;
+        else if (elem == G) gCount++;
+        else if (elem == B) bCount++;
     }
     return std::min({rCount, gCount, bCount});
 }

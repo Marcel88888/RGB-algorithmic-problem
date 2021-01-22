@@ -13,9 +13,7 @@ def plot_results(results, plot_title: str):
 
 if __name__ == '__main__':
     data = ([], [])
-    file_names = ["../../benchmarking/advancedSort.txt",
-                  "../../benchmarking/initialTripleSearch.txt",
-                  "../../benchmarking/naiveSorting.txt"]
+    file_names = ["../../benchmarking/breadthSearch.txt"]
     for name in file_names:
         with(open(name, newline='\n')) as f:
             lines = iter(f)

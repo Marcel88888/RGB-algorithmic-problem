@@ -15,7 +15,7 @@
 #include "algorithm_lib/NaiveSorting.h"
 #include "algorithm_lib/InitialTripleSearch.h"
 #include "CommandLineArgumentsParsing.h"
-
+#include "algorithm_lib/WindowsPrintingUtilities.h"
 
 enum SortingAlgorithm {
     AdvancedSort,
@@ -57,6 +57,12 @@ bool printAllCommandsCm(const std::vector<CommandWithoutArgs> &allCommands);
 bool advancedSortCm();
 
 bool measureAdvancedCm();
+
+bool naiveSortCm();
+
+bool breadthSearchCm();
+
+bool initialTripleCm();
 
 bool generateElementsCm(int argc, const char *argv[]);
 

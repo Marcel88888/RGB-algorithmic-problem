@@ -41,10 +41,83 @@ bool advancedSortCm() {
     generate(elements.begin(), elements.end(), [] {
         return kRgbElements[randomUniformInteger(0, 2)];
     });
+    std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
 
     cout << "Result:\n";
     std::cout << elements << std::endl;
-    cout << AdvancedSort::solution(elements).arrangedElements << std::endl;
+    const Solution &sol = AdvancedSort::solution(elements);
+    for (const int ind : sol.indexesOfMovedGroups) {
+        printWithHighlightedGroup(std::cout, elements, ind, Color::WHITE_ON_BLACK)
+                << "\n";
+        moveTripleBack(elements, ind);
+        printWithHighlightedGroup(std::cout, elements, (int) elements.size() - 3, Color::RED)
+                << std::endl;
+    }
+    cout << sol.arrangedElements << std::endl;
+    return true;
+}
+
+bool naiveSortCm() {
+    cout << "Enter the number of balls: ";
+    int ballsNumber;
+    cin >> ballsNumber;
+    vector<RgbElement> elements(ballsNumber);
+
+//  Use of the uniform distribution
+    generate(elements.begin(), elements.end(), [] {
+        return kRgbElements[randomUniformInteger(0, 2)];
+    });
+    std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
+
+    cout << "Result:\n";
+    std::cout << elements << std::endl;
+    const Solution &sol = NaiveSorting::sort(elements, maxRgbGroupsAmount(elements));
+    cout << sol.arrangedElements << std::endl;
+    return true;
+}
+
+bool breadthSearchCm() {
+    cout << "Enter the number of balls: ";
+    int ballsNumber;
+    cin >> ballsNumber;
+    vector<RgbElement> elements(ballsNumber);
+
+//  Use of the uniform distribution
+    generate(elements.begin(), elements.end(), [] {
+        return kRgbElements[randomUniformInteger(0, 2)];
+    });
+    std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
+
+    cout << "Result:\n";
+    std::cout << elements << std::endl;
+    const Solution &sol = BreadthSearchAlgorithm::solution(elements);
+    for (const int ind : sol.indexesOfMovedGroups) {
+        printWithHighlightedGroup(std::cout, elements, ind, Color::WHITE_ON_BLACK)
+                << "\n";
+        moveTripleBack(elements, ind);
+        printWithHighlightedGroup(std::cout, elements, (int) elements.size() - 3, Color::RED)
+                << std::endl;
+    }
+    cout << sol.arrangedElements << std::endl;
+    return true;
+}
+
+bool initialTripleCm() {
+    cout << "Enter the number of balls divisible by 3: ";
+    int ballsNumber;
+    cin >> ballsNumber;
+    vector<RgbElement> elements(ballsNumber);
+
+//  Use of the uniform distribution
+    generate(elements.begin(), elements.end(), [] {
+        return kRgbElements[randomUniformInteger(0, 2)];
+    });
+    std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
+
+    cout << "Result:\n";
+    std::cout << elements << std::endl;
+    const Solution &sol = InitialTripleSearch::sort(elements, (int) elements.size() / 100);
+    cout << sol.arrangedElements << std::endl;
     return true;
 }
 
