@@ -10,6 +10,35 @@ bool printAllCommandsCm(const std::vector<CommandWithoutArgs> &allCommands) {
     return true;
 }
 
+ostream &printResults(ostream &os, const std::vector<RgbElement> &elements, const Solution &solution) {
+    std::vector<RgbElement> elementsCopy(elements);
+#if defined(_WIN32)
+    for (const int ind : solution.indexesOfMovedGroups) {
+        printWithHighlightedGroups(
+                os, elementsCopy,
+                {ind}, Color::WHITE_ON_BLACK) << "\n";
+        moveTripleBack(elementsCopy, ind);
+        printWithHighlightedGroups(
+                os, elementsCopy,
+                {(int) elementsCopy.size() - 3}, Color::RED) << "\n";
+    }
+    printWithHighlightedGroups(
+            os,
+            elementsCopy,
+            AdvancedSort::positionsOfAllExistingRgbTriples(
+                    elementsCopy.cbegin(), elementsCopy.cend()), Color::WHITE_ON_BLACK);
+# endif
+
+#ifndef _WIN32
+    for (const int ind : solution.indexesOfMovedGroups) {
+        os << elementsCopy << '\n';
+        moveTripleBack(elementsCopy, ind);
+    }
+    os << elementsCopy;
+# endif
+    return os;
+}
+
 bool measureAdvancedCm() {
     cout << "Enter the number of balls divisible by 3" << endl;
     int ballsNumber;
@@ -44,16 +73,8 @@ bool advancedSortCm() {
     std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
 
     cout << "Result:\n";
-    std::cout << elements << std::endl;
     const Solution &sol = AdvancedSort::solution(elements);
-    for (const int ind : sol.indexesOfMovedGroups) {
-        printWithHighlightedGroup(std::cout, elements, ind, Color::WHITE_ON_BLACK)
-                << "\n";
-        moveTripleBack(elements, ind);
-        printWithHighlightedGroup(std::cout, elements, (int) elements.size() - 3, Color::RED)
-                << std::endl;
-    }
-    cout << sol.arrangedElements << std::endl;
+    printResults(cout, elements, sol) << std::endl;
     return true;
 }
 
@@ -70,9 +91,8 @@ bool naiveSortCm() {
     std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
 
     cout << "Result:\n";
-    std::cout << elements << std::endl;
     const Solution &sol = NaiveSorting::sort(elements, maxRgbGroupsAmount(elements));
-    cout << sol.arrangedElements << std::endl;
+    printResults(cout, elements, sol) << std::endl;
     return true;
 }
 
@@ -89,16 +109,8 @@ bool breadthSearchCm() {
     std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
 
     cout << "Result:\n";
-    std::cout << elements << std::endl;
     const Solution &sol = BreadthSearchAlgorithm::solution(elements);
-    for (const int ind : sol.indexesOfMovedGroups) {
-        printWithHighlightedGroup(std::cout, elements, ind, Color::WHITE_ON_BLACK)
-                << "\n";
-        moveTripleBack(elements, ind);
-        printWithHighlightedGroup(std::cout, elements, (int) elements.size() - 3, Color::RED)
-                << std::endl;
-    }
-    cout << sol.arrangedElements << std::endl;
+    printResults(cout, elements, sol) << std::endl;
     return true;
 }
 
@@ -115,9 +127,8 @@ bool initialTripleCm() {
     std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
 
     cout << "Result:\n";
-    std::cout << elements << std::endl;
     const Solution &sol = InitialTripleSearch::sort(elements, (int) elements.size() / 100);
-    cout << sol.arrangedElements << std::endl;
+    printResults(cout, elements, sol) << std::endl;
     return true;
 }
 

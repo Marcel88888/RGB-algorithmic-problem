@@ -1,4 +1,5 @@
 #if defined(_WIN32)
+
 #include "WindowsPrintingUtilities.h"
 #include "PrintingUtilities.h"
 
@@ -14,27 +15,31 @@ void WindowsPrintingUtilities::colored(const std::function<void()> &runnable, Co
 }
 
 
-std::ostream &printWithHighlightedGroup(std::ostream &out,
-                                        const std::vector<RgbElement> &elements,
-                                        int indexOfHighlightedGroup,
-                                        Color color) {
-    int offset = 0;
-    auto next = [&]() { return *(elements.cbegin() + offset++); };
-    out << "[";
-    for (int i = 0; i < indexOfHighlightedGroup; i++) {
-        out << next() << ", ";
+std::ostream &printWithHighlightedGroups(std::ostream &out,
+                                         const std::vector<RgbElement> &elements,
+                                         const std::vector<int> &indexesOfHighlightedGroups,
+                                         Color color) {
+    if (indexesOfHighlightedGroups.empty()) {
+        out << elements;
+    } else {
+        int offset = 0;
+        out << "[";
+        for (int ind : indexesOfHighlightedGroups) {
+            printJoined<RgbElement>(out, elements.cbegin() + offset, elements.cbegin() + ind);
+            if (ind > offset)
+                out << ", ";
+            offset = ind;
+            int nextOffset = offset + 3;
+            WindowsPrintingUtilities::colored([&] {
+                printJoined<RgbElement>(out, elements.cbegin() + offset, elements.cbegin() + nextOffset);
+            }, color);
+            offset = nextOffset;
+            if (offset < elements.size())
+                out << ", ";
+        }
+        printJoined<RgbElement>(out, elements.cbegin() + offset, elements.cend());
+        out << "]";
     }
-    int nextOffset = offset + 3;
-    WindowsPrintingUtilities::colored([&] {
-        printJoined<RgbElement>(out, elements.cbegin() + offset, elements.cbegin() + nextOffset);
-    }, color);
-    offset = nextOffset;
-
-    if (offset < elements.size())
-        out << ", ";
-
-    printJoined<RgbElement>(out, elements.cbegin() + offset, elements.cend());
-    out << "]";
     return out;
 }
 

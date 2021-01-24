@@ -2,8 +2,6 @@
 #ifndef RGB_ALGORITHMIC_PROBLEM_WINDOWSPRINTINGUTILITIES_H
 #define RGB_ALGORITHMIC_PROBLEM_WINDOWSPRINTINGUTILITIES_H
 
-#if defined(_WIN32)
-
 #include <windows.h>
 #include "RgbAlgorithmUtilities.h"
 #include "PrintingUtilities.h"
@@ -31,14 +29,13 @@ private:
 /// Print vector elements with a colorized group
 /// \param out: output stream
 /// \param elements: RGB vector elements
-/// \param indexOfHighlightedGroup: index of the group
+/// \param indexesOfHighlightedGroups: index of the group
 /// \param color: the color of the highlighted group
 /// \return: the given output stream
-std::ostream &printWithHighlightedGroup(std::ostream &out,
-                                        const std::vector<RgbElement> &elements,
-                                        int indexOfHighlightedGroup,
-                                        Color color);
+std::ostream &printWithHighlightedGroups(std::ostream &out,
+                                         const std::vector<RgbElement> &elements,
+                                         const std::vector<int> &indexesOfHighlightedGroups,
+                                         Color color);
 
-#endif //WIN
 #endif //RGB_ALGORITHMIC_PROBLEM_WINDOWSPRINTINGUTILITIES_H
-#endif
+#endif //WIN

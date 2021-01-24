@@ -26,17 +26,15 @@ int countFirstRgbGroups(std::vector<RgbElement>::const_iterator beg,
  * all the time) reaches the limit of failures set calling sorting method.
  *
  */
-tuple<vector<RgbElement>, vector<int>> sortingStep(const vector<RgbElement> &elements, int startingPoint, int groupSize) {
-    vector<RgbElement> elementsCopy(elements);
-    vector<int> indexesOfMovedGroups;
+void makeSortingStep(vector<RgbElement> &elements, int startingPoint, int groupSize,
+                     const std::function<std::vector<RgbElement> &(std::vector<RgbElement> &, int)> &moveTripleBack) {
     int i = startingPoint;
     int sortedGroupsNumber = 0;
 
     // phase 1
-    while (i < elementsCopy.size() - groupSize * sortedGroupsNumber - groupSize) {
-        if (i >= 0 && isRgbTriple(elementsCopy.cbegin() + i)) {
-            moveTripleBack(elementsCopy, i);
-            indexesOfMovedGroups.push_back(i);
+    while (i < elements.size() - groupSize * sortedGroupsNumber - groupSize) {
+        if (i >= 0 && isRgbTriple(elements.cbegin() + i)) {
+            moveTripleBack(elements, i);
             sortedGroupsNumber++;
             // after moving a triple back there can appear a new rgb group out of the elements at the positions
             // i - 1 and i - 2 and i + 3 so check if this group can also be moved back
@@ -45,30 +43,29 @@ tuple<vector<RgbElement>, vector<int>> sortingStep(const vector<RgbElement> &ele
     }
 
     // phase 2
-    int unsorted_balls = (int) elementsCopy.size() - sortedGroupsNumber * groupSize -
-            countFirstRgbGroups(elementsCopy.cbegin(), elementsCopy.cend()) * groupSize;
+    int unsorted_balls = (int) elements.size() - sortedGroupsNumber * groupSize -
+                         countFirstRgbGroups(elements.cbegin(), elements.cend()) * groupSize;
     int required_moves = unsorted_balls / groupSize;
     for (int j = 0; j < required_moves; ++j) {
-        RgbElement last_value = elementsCopy.back();
+        RgbElement last_value = elements.back();
         int next_req_val = (getElemReqPosition(last_value) + 1) % groupSize;
         int best_move_pos1 = -1; // with values [X,?,?]
         bool double_found = false;  // for values [X1,X2,?]
         bool triple_found = false; // for values [X1,X2,X3]
         for (int k = startingPoint;
-             k < startingPoint + unsorted_balls - 2; ++k) {  // "unsorted_balls - 2" because in the loop I may move a triple
+             k <
+             startingPoint + unsorted_balls - 2; ++k) {  // "unsorted_balls - 2" because in the loop I may move a triple
             // starting at k position and ending at k+2 position.
-            if (elementsCopy[k] == kRgbElements[next_req_val]) {
+            if (elements[k] == kRgbElements[next_req_val]) {
                 best_move_pos1 = k;
-                if (elementsCopy[k + 1] == kRgbElements[(next_req_val + 1) % groupSize] &&
-                    elementsCopy[k + 2] == kRgbElements[(next_req_val + 2) % groupSize]) {
-                    moveTripleBack(elementsCopy, k);
-                    indexesOfMovedGroups.push_back(k);
+                if (elements[k + 1] == kRgbElements[(next_req_val + 1) % groupSize] &&
+                    elements[k + 2] == kRgbElements[(next_req_val + 2) % groupSize]) {
+                    moveTripleBack(elements, k);
                     unsorted_balls -= groupSize;
                     triple_found = true;
                     break;
-                } else if (elementsCopy[k + 1] == kRgbElements[(next_req_val + 1) % groupSize]) {
-                    moveTripleBack(elementsCopy, k);
-                    indexesOfMovedGroups.push_back(k);
+                } else if (elements[k + 1] == kRgbElements[(next_req_val + 1) % groupSize]) {
+                    moveTripleBack(elements, k);
                     unsorted_balls -= groupSize;
                     double_found = true;
                     break;
@@ -76,23 +73,29 @@ tuple<vector<RgbElement>, vector<int>> sortingStep(const vector<RgbElement> &ele
             }
         }
         if (!triple_found && !double_found && best_move_pos1 != -1) {
-            moveTripleBack(elementsCopy, best_move_pos1);
-            indexesOfMovedGroups.push_back(best_move_pos1);
+            moveTripleBack(elements, best_move_pos1);
             unsorted_balls -= groupSize;
         } else if (!triple_found && !double_found) {
-            moveTripleBack(elementsCopy, startingPoint);
-            indexesOfMovedGroups.push_back(startingPoint);
+            moveTripleBack(elements, startingPoint);
             unsorted_balls -= groupSize;
         }
     }
-    return make_tuple(elementsCopy, indexesOfMovedGroups);
 }
 
 
 Solution InitialTripleSearch::sort(const vector<RgbElement> &elements, int failuresLimit) {
     vector<RgbElement> elementsCopy(elements);
-    vector<int> indexesOfMovedGroups;
     int groupSize = kRgbElements.size();
+    vector<int> indexesOfMovedGroups;
+    const std::function<std::vector<RgbElement> &(std::vector<RgbElement> &, int)> moveAndSaveIndex
+            = [&indexesOfMovedGroups, &groupSize](std::vector<RgbElement> &elements,
+                                                  int groupPosition) -> std::vector<RgbElement> & {
+                if (groupPosition < elements.size() - groupSize) {
+                    moveTripleBack(elements, groupPosition);
+                    indexesOfMovedGroups.push_back(groupPosition);
+                }
+                return elements;
+            };
     int startPoint = (int) elementsCopy.size() % groupSize;
     int rgbGroupsAmount1, rgbGroupsAmount2;
     int failures = 0;
@@ -100,31 +103,23 @@ Solution InitialTripleSearch::sort(const vector<RgbElement> &elements, int failu
         rgbGroupsAmount1 = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend());
         rgbGroupsAmount2 = rgbGroupsAmount1;
 
-        tuple <vector<RgbElement>, vector<int>> sorting_step_results = sortingStep(
+        makeSortingStep(
                 elementsCopy,
                 ((int) elementsCopy.size() % groupSize) + rgbGroupsAmount1 * groupSize,
-                groupSize);
-        elementsCopy = get<0>(sorting_step_results);
-        indexesOfMovedGroups.insert(indexesOfMovedGroups.end(),
-                                    get<1>(sorting_step_results).begin(),
-                                    get<1>(sorting_step_results).end() );
+                groupSize,
+                moveAndSaveIndex);
 
         rgbGroupsAmount1 = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend());
         if (rgbGroupsAmount1 == rgbGroupsAmount2) {
             failures++;
-        }
-        else {
+        } else {
             failures = 0;
         }
     }
 
     // sorting the unsorted part of the vector using NaiveSorting
-    auto unsorted_beg = elementsCopy.begin() +
-            countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend()) * groupSize;
-    auto unsorted_end = elementsCopy.end();
-    vector<RgbElement> unsorted_elements(unsorted_beg, unsorted_end);
-    int max = maxRgbGroupsAmount(unsorted_elements);
-    vector<RgbElement> sorted_part = NaiveSorting::sort(unsorted_elements, max).arrangedElements;
-    copy(sorted_part.begin(), sorted_part.end(), unsorted_beg);
-    return Solution(elementsCopy, indexesOfMovedGroups);
+    int offset = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend()) * groupSize;
+    vector<RgbElement> unsorted_elements(elementsCopy.begin() + offset, elementsCopy.end());
+    Solution naiveSolution = NaiveSorting::sort(unsorted_elements, maxRgbGroupsAmount(unsorted_elements));
+    return AdvancedSort::mergedSolutions(Solution(elementsCopy, indexesOfMovedGroups), naiveSolution, offset);
 }

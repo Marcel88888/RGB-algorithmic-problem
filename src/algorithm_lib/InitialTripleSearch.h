@@ -5,6 +5,7 @@
 #include <iostream>
 #include "RgbAlgorithmUtilities.h"
 #include "NaiveSorting.h"
+#include "AdvancedSort.h"
 #include <algorithm>
 
 

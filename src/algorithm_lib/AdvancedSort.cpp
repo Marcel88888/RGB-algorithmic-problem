@@ -69,7 +69,7 @@ std::vector<int> AdvancedSort::findPositionsOfMatchedGroups(
 
 
 /// Main algorithm function where we look for the matching groups -> move them to the end -> move the middle group to the end
-bool makeMovements(
+bool makeMatchedGroupsMovements(
         int rightBoundExcluding,
         std::vector<RgbElement> &elements,
         const std::function<std::vector<RgbElement> &(std::vector<RgbElement> &, int)> &moveTripleBack) {
@@ -100,31 +100,6 @@ bool makeMovements(
     return false;
 }
 
-Solution mergedSolutions(const Solution &s1, const Solution &s2, int startingIndexOfNextSolutionElements) {
-    const unsigned long long int elementsNumber = s1.arrangedElements.size();
-    int j = 0;
-    std::vector<RgbElement> elements;
-    std::vector<int> positions;
-    elements.reserve(elementsNumber);
-//    Push elements from s1 and s2
-    auto it1 = s1.arrangedElements.cbegin();
-    auto it2 = s2.arrangedElements.cbegin();
-    for (int i = 0; i < startingIndexOfNextSolutionElements; ++i) {
-        elements.push_back(*it1++);
-    }
-    for (int i = startingIndexOfNextSolutionElements; i < elementsNumber; ++i) {
-        elements.push_back(*it2++);
-    }
-//    Push indexes
-    for (int ind : s1.indexesOfMovedGroups) {
-        positions.push_back(ind);
-    }
-    for (int ind : s2.indexesOfMovedGroups) {
-        positions.push_back(ind);
-    }
-    return Solution(elements, positions);
-}
-
 
 Solution AdvancedSort::solution(const std::vector<RgbElement> &elements) {
 //    Pre-checks
@@ -150,8 +125,7 @@ Solution AdvancedSort::solution(const std::vector<RgbElement> &elements) {
                 }
                 return elements;
             };
-
-    //    Move all all the found rgb triples to the end
+//    Move all all the found rgb triples to the end
     std::vector<int> positions = positionsOfAllExistingRgbTriples(
             elementsCopy.cbegin(), elementsCopy.cend());
     std::vector<int> p = calculatedPositionsForMakingSequentialMovements(positions);
@@ -161,7 +135,7 @@ Solution AdvancedSort::solution(const std::vector<RgbElement> &elements) {
         moveAndSaveIndex(elementsCopy, pos);
 
     const int rightBoundExcluding = numberOfUntouchedGroups * kGroupSize;
-    const bool movementsWereMade = makeMovements(rightBoundExcluding, elementsCopy, moveAndSaveIndex);
+    const bool movementsWereMade = makeMatchedGroupsMovements(rightBoundExcluding, elementsCopy, moveAndSaveIndex);
 
     const int numberOfGroupsToMoveToTheEnd = movementsWereMade ?
                                              numberOfUntouchedGroups - 2 :
@@ -173,6 +147,7 @@ Solution AdvancedSort::solution(const std::vector<RgbElement> &elements) {
         }
     }
     if (movementsWereMade) {
+//        We make +1 movement after the initial movements
         int startingIndexOfNextSolutionElements = (numberOfInitialMovements + 1) * kGroupSize;
         std::vector<RgbElement> elementsForInnerSolution(elementsCopy.begin() + startingIndexOfNextSolutionElements,
                                                          elementsCopy.end());
@@ -200,4 +175,30 @@ std::vector<int> AdvancedSort::positionsOfAllExistingRgbTriples(
         offset += incValue;
     }
     return foundPositions;
+}
+
+Solution
+AdvancedSort::mergedSolutions(const Solution &s1, const Solution &s2, int startingIndexOfNextSolutionElements) {
+    const unsigned long long int elementsNumber = s1.arrangedElements.size();
+    int j = 0;
+    std::vector<RgbElement> elements;
+    std::vector<int> positions;
+    elements.reserve(elementsNumber);
+//    Push elements from s1 and s2
+    auto it1 = s1.arrangedElements.cbegin();
+    auto it2 = s2.arrangedElements.cbegin();
+    for (int i = 0; i < startingIndexOfNextSolutionElements; ++i) {
+        elements.push_back(*it1++);
+    }
+    for (int i = startingIndexOfNextSolutionElements; i < elementsNumber; ++i) {
+        elements.push_back(*it2++);
+    }
+//    Push indexes
+    for (int ind : s1.indexesOfMovedGroups) {
+        positions.push_back(ind);
+    }
+    for (int ind : s2.indexesOfMovedGroups) {
+        positions.push_back(ind + startingIndexOfNextSolutionElements);
+    }
+    return Solution(elements, positions);
 }

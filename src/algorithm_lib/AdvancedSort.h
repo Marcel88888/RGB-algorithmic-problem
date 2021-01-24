@@ -33,6 +33,15 @@ public:
             const std::vector<MatchingGroup> &matchingGroups);
 
     static Solution solution(const std::vector<RgbElement> &elements);
+
+    /// Get the solution as the result of merging 2 solutions. There are taken "startingIndexOfNextSolutionElements"
+    /// elements of the solution 1 and the remaining elements will be taken from the s2
+    /// \param s1
+    /// \param s2
+    /// \param startingIndexOfNextSolutionElements
+    /// \return the solution where elements will be partly taken from the s1.arrangedElements and s2.arrangedElements and
+    /// all the indexes will be merged
+    static Solution mergedSolutions(const Solution &s1, const Solution &s2, int startingIndexOfNextSolutionElements);
 };
 
 
