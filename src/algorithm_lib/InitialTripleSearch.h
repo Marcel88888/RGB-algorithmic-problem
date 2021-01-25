@@ -14,6 +14,7 @@ class InitialTripleSearch {
 public:
     static Solution sort(const std::vector<RgbElement> &elements, int failuresLimit);
 
+    static Solution sortUsingNaiveAlgorithmAtTheEnd(const std::vector<RgbElement> &elements, int failuresLimit);
 };
 
 

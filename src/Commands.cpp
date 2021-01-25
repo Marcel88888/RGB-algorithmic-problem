@@ -39,7 +39,7 @@ ostream &printResults(ostream &os, const std::vector<RgbElement> &elements, cons
     return os;
 }
 
-bool measureAdvancedCm() {
+bool measureAdvancedAlgorithmCm() {
     cout << "Enter the number of balls divisible by 3" << endl;
     int ballsNumber;
     cin >> ballsNumber;
@@ -133,6 +133,26 @@ bool initialTripleCm() {
     return true;
 }
 
+bool initialTripleWithNaiveCm() {
+    cout << "Enter the number of balls divisible by 3: ";
+    int ballsNumber;
+    cin >> ballsNumber;
+    vector<RgbElement> elements(ballsNumber);
+
+//  Use of the uniform distribution
+    generate(elements.begin(), elements.end(), [] {
+        return kRgbElements[randomUniformInteger(0, 2)];
+    });
+    std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
+
+    cout << "Result:\n";
+    int limit = elements.size();
+    const Solution &sol = InitialTripleSearch::sortUsingNaiveAlgorithmAtTheEnd(elements, limit);
+    printResults(cout, elements, sol) << std::endl;
+    return true;
+}
+
+
 std::vector<std::vector<RgbElement>> generateElements(const RandomBallsGenerator generator,
                                                       const int startingElementsAmount,
                                                       const int numberOfElementsAdded,
@@ -146,7 +166,6 @@ std::vector<std::vector<RgbElement>> generateElements(const RandomBallsGenerator
                 return kRgbElements[randomUniformInteger(0, 2)];
             });
         } else if (generator == RandomBallsGenerator::LinkedRandom) {
-//            TODO(@pochka15): maybe add to the arguments optional linkedRandomIntegersGenerator parameters
             const auto gen = linkedRandomIntegersGenerator(0.5, 0, 2);
             std::generate(elements.begin(), elements.end(), [&gen] {
                 return kRgbElements[gen()];
@@ -157,33 +176,57 @@ std::vector<std::vector<RgbElement>> generateElements(const RandomBallsGenerator
     return all_elements;
 }
 
+std::vector<std::vector<RgbElement>> generateLinkedElements(double probabilityOfChoosingPrevElement,
+                                                            const int startingElementsAmount,
+                                                            const int numberOfElementsAdded,
+                                                            const int iterationsNumber) {
+    std::vector<std::vector<RgbElement>> all_elements;
+    for (int i = 0; i < iterationsNumber; ++i) {
+        int elements_size = startingElementsAmount + i * numberOfElementsAdded;
+        std::vector<RgbElement> elements(elements_size);
+        const auto gen = linkedRandomIntegersGenerator(probabilityOfChoosingPrevElement, 0, 2);
+        std::generate(elements.begin(), elements.end(), [&gen] {
+            return kRgbElements[gen()];
+        });
+        all_elements.push_back(elements);
+    }
+    return all_elements;
+}
+
+
 bool generateElementsCm(int argc, const char *argv[]) {
     struct MyOpts {
         string generator{};
         int startingElementsAmount{};
         int numberOfElementsAdded{};
         int iterationsNumber{};
+        double probability{};
     };
 
     auto parser = CmdOpts<MyOpts>::Create(
             {
-                    {"--generator",                &MyOpts::generator},
-                    {"--starting_elements_amount", &MyOpts::startingElementsAmount},
-                    {"--number_of_elements_added", &MyOpts::numberOfElementsAdded},
-                    {"--iterations_number",        &MyOpts::iterationsNumber}});
+                    {"--generator",                    &MyOpts::generator},
+                    {"--starting_elements_amount",     &MyOpts::startingElementsAmount},
+                    {"--number_of_elements_added",     &MyOpts::numberOfElementsAdded},
+                    {"--iterations_number",            &MyOpts::iterationsNumber},
+                    {"--probability_of_choosing_prev", &MyOpts::probability}});
 
     auto parsedOpts = parser->parse(argc, argv);
-    RandomBallsGenerator generatorType;
-    if (parsedOpts.generator == "rand")
-        generatorType = RandomBallsGenerator::Random;
-    else
-        generatorType = RandomBallsGenerator::LinkedRandom;
-    const vector<std::vector<RgbElement>> &generatedElements = generateElements(
-            generatorType, parsedOpts.startingElementsAmount,
-            parsedOpts.numberOfElementsAdded, parsedOpts.iterationsNumber);
-    for (const std::vector<RgbElement> &elements : generatedElements) {
-        std::cout << elements << std::endl;
-    }
+    if (parsedOpts.generator == "rand") {
+        const vector<std::vector<RgbElement>> &generatedElements = generateElements(
+                RandomBallsGenerator::Random, parsedOpts.startingElementsAmount,
+                parsedOpts.numberOfElementsAdded, parsedOpts.iterationsNumber);
+        for (const std::vector<RgbElement> &elements : generatedElements) {
+            std::cout << elements << std::endl;
+        }
+    } else {
+        const vector<std::vector<RgbElement>> &generatedElements = generateLinkedElements(
+                parsedOpts.probability, parsedOpts.startingElementsAmount,
+                parsedOpts.numberOfElementsAdded, parsedOpts.iterationsNumber);
+        for (const std::vector<RgbElement> &elements : generatedElements) {
+            std::cout << elements << std::endl;
+        }
+    };
     return true;
 }
 
@@ -206,29 +249,52 @@ void measureAlgorithmExecutionTime(SortingAlgorithm algorithm,
         if (algorithm == SortingAlgorithm::NaiveSorting) {
             outfile << elements.size() << "\n";
             double time = elapsedTime([&] {
-                cout << NaiveSorting::sort(elements).arrangedElements << std::endl;
+                NaiveSorting::sort(elements);
             });
             outfile << time << "\n";
         } else if (algorithm == SortingAlgorithm::InitialTripleSearch) {
             outfile << elements.size() << "\n";
             double time = elapsedTime([&] {
-                cout << InitialTripleSearch::sort(elements, (int) elements.size() / 100).arrangedElements << std::endl;
+                InitialTripleSearch::sort(elements, (int) elements.size() / 100);
             });
             outfile << time << "\n";
         } else if (algorithm == SortingAlgorithm::AdvancedSort) {
             outfile << elements.size() << "\n";
             double time = elapsedTime([&] {
-                cout << AdvancedSort::solution(elements).arrangedElements << std::endl;
+                AdvancedSort::solution(elements);
             });
             outfile << time << "\n";
         } else if (algorithm == SortingAlgorithm::BreadthSearch) {
             outfile << elements.size() << "\n";
             double time = elapsedTime([&] {
-                cout << BreadthSearchAlgorithm::solution(elements).arrangedElements << std::endl;
+                BreadthSearchAlgorithm::solution(elements);
             });
             outfile << time << "\n";
         }
         ++i;
     }
     outfile.close();
+}
+
+bool measureAlgorithmExecutionTimeCm(int argc, const char **argv) {
+    struct MyOpts {
+        string algorithmName{};
+    };
+    auto parser = CmdOpts<MyOpts>::Create({{"--algorithmName", &MyOpts::algorithmName}});
+    auto parsedOpts = parser->parse(argc, argv);
+    if (parsedOpts.algorithmName == "initial")
+        measureAlgorithmExecutionTime(
+                SortingAlgorithm::InitialTripleSearch, 999,
+                501, 30, "../benchmarking/initialTripleSearch.txt");
+    else if (parsedOpts.algorithmName == "breadth") {
+        measureAlgorithmExecutionTime(SortingAlgorithm::BreadthSearch, 7, 1, 10,
+                                      "../benchmarking/breadthSearch.txt");
+    } else if (parsedOpts.algorithmName == "naive") {
+        measureAlgorithmExecutionTime(SortingAlgorithm::NaiveSorting, 1000, 125, 30,
+                                      "../benchmarking/naiveSorting.txt");
+    } else if (parsedOpts.algorithmName == "advanced") {
+        measureAlgorithmExecutionTime(SortingAlgorithm::AdvancedSort, 999, 249, 30,
+                                      "../benchmarking/advancedSort.txt");
+    }
+    return true;
 }

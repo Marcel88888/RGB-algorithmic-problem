@@ -56,7 +56,7 @@ bool printAllCommandsCm(const std::vector<CommandWithoutArgs> &allCommands);
 
 bool advancedSortCm();
 
-bool measureAdvancedCm();
+bool measureAdvancedAlgorithmCm();
 
 bool naiveSortCm();
 
@@ -64,13 +64,11 @@ bool breadthSearchCm();
 
 bool initialTripleCm();
 
+bool initialTripleWithNaiveCm();
+
 bool generateElementsCm(int argc, const char *argv[]);
 
-void measureAlgorithmExecutionTime(SortingAlgorithm algorithm,
-                                   int startingElementsAmount,
-                                   int numberOfElementsAdded,
-                                   int iterationsNumber,
-                                   const string &fileName);
+bool measureAlgorithmExecutionTimeCm(int argc, const char *argv[]);
 
 
 #endif //RGB_ALGORITHMIC_PROBLEM_COMMANDS_H

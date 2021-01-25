@@ -23,8 +23,10 @@ int main(int argc, const char *argv[]) {
                         breadthSearchCm},
                 {"ini",     "sort the balls using the initialTripleSearch algorithm",
                         initialTripleCm},
+                {"ini2",    "sort the balls using the initialTripleSearch algorithm",
+                        initialTripleWithNaiveCm},
                 {"meas",    "Measure time of the advanced algorithm",
-                        measureAdvancedCm}
+                        measureAdvancedAlgorithmCm}
         };
         std::unordered_map<string, CommandWithoutArgs> mappedCommandsWithoutArgs;
         for (const CommandWithoutArgs &cmd : allCommandsWithoutArgs) {
@@ -33,9 +35,16 @@ int main(int argc, const char *argv[]) {
         InteractionWithUser::interactWithUser(mappedCommandsWithoutArgs);
     } else { // Execute single command using argc, argv
         std::unordered_map<string, CommandWithoutArgs> mappedCommands = {
-                {"--generate", {"generate", "generate a bunch of elements", [&]() {
+//                Example: --generate --generator rand --starting_elements_amount 12 --number_of_elements_added 12 --iterations_number 10
+//                Example: --generate --generator linked --starting_elements_amount 12 --number_of_elements_added 12 --iterations_number 10 --probability_of_choosing_prev 0.5
+                {"--generate", {"generate", "generate a bunch of elements",                 [&]() {
                     return generateElementsCm(argc, argv);
+                }}},
+//                --measure --algorithmName [initial breadth naive advanced]
+                {"--measure",  {"measure",  "measure the execution time of some algorithm", [&]() {
+                    return measureAlgorithmExecutionTimeCm(argc, argv);
                 }}}
+
         };
         auto iter = mappedCommands.find(argv[1]);
         if (iter != mappedCommands.end()) {

@@ -17,7 +17,7 @@ double uniformRealDistribution(double from, double to) {
     return distribution(eng);
 }
 
-std::function<int()> linkedRandomIntegersGenerator(float probabilityOfChoosingPreviousElement, int from, int to) {
+std::function<int()> linkedRandomIntegersGenerator(double probabilityOfChoosingPreviousElement, int from, int to) {
     return [=, prevElem = -1]() mutable {
         int currentElement;
         if (prevElem == -1) {

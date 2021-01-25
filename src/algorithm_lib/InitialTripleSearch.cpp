@@ -116,10 +116,16 @@ Solution InitialTripleSearch::sort(const vector<RgbElement> &elements, int failu
             failures = 0;
         }
     }
+    return Solution(elementsCopy, indexesOfMovedGroups);
+}
 
-    // sorting the unsorted part of the vector using NaiveSorting
-    int offset = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend()) * groupSize;
-    vector<RgbElement> unsorted_elements(elementsCopy.begin() + offset, elementsCopy.end());
+Solution InitialTripleSearch::sortUsingNaiveAlgorithmAtTheEnd(const vector<RgbElement> &elements, int failuresLimit) {
+    const Solution &solution = sort(elements, failuresLimit);
+    int groupSize = kRgbElements.size();
+    int startPoint = (int) elements.size() % groupSize;
+    const vector<RgbElement> &arrangedElements = solution.arrangedElements;
+    int offset = countFirstRgbGroups(arrangedElements.cbegin() + startPoint, arrangedElements.cend()) * groupSize;
+    vector<RgbElement> unsorted_elements(arrangedElements.begin() + offset, arrangedElements.end());
     Solution naiveSolution = NaiveSorting::sort(unsorted_elements);
-    return AdvancedSort::mergedSolutions(Solution(elementsCopy, indexesOfMovedGroups), naiveSolution, offset);
+    return AdvancedSort::mergedSolutions(solution, naiveSolution, offset);
 }

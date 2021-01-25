@@ -21,7 +21,7 @@ double uniformRealDistribution(double from, double to);
 /// \param probabilityOfChoosingPreviousElement: if a random value from the range [0; 1] will be less or equal
 /// than the given parameter then it will be returned the previously generated element.
 /// \return a random lambda that returns integer from the range [from, to]
-std::function<int()> linkedRandomIntegersGenerator(float probabilityOfChoosingPreviousElement, int from, int to);
+std::function<int()> linkedRandomIntegersGenerator(double probabilityOfChoosingPreviousElement, int from, int to);
 
 
 #endif //RGB_ALGORITHMIC_PROBLEM_RANDOMUTILITIES_H
