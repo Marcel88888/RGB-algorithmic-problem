@@ -53,7 +53,7 @@ bool measureAdvancedAlgorithmCm() {
     cout << "Result:\n";
     std::cout << elements << std::endl;
     double t = elapsedTime([&] {
-        cout << AdvancedSort::solution(elements).arrangedElements << std::endl;
+        AdvancedSort::solution(elements);
     });
     fprintf(stdout, "CPU time used = %lf\n", t);
 
@@ -285,7 +285,7 @@ bool measureAlgorithmExecutionTimeCm(int argc, const char **argv) {
     if (parsedOpts.algorithmName == "initial")
         measureAlgorithmExecutionTime(
                 SortingAlgorithm::InitialTripleSearch, 999,
-                501, 30, "../benchmarking/initialTripleSearch.txt");
+                501, 40, "../benchmarking/initialTripleSearch.txt");
     else if (parsedOpts.algorithmName == "breadth") {
         measureAlgorithmExecutionTime(SortingAlgorithm::BreadthSearch, 7, 1, 9,
                                       "../benchmarking/breadthSearch.txt");

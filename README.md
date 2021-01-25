@@ -1,11 +1,33 @@
-# Useful howtos and resources
+# Some info
 
-## Useful resources
+## About
 
-- [MinGW-w64 - for 32 and 64 bit Windows](https://sourceforge.net/projects/mingw-w64/files/)
-- [C++ Core Guidelines: Passing Smart Pointers](https://www.modernescpp.com/index.php/c-core-guidelines-passing-smart-pointer)
-- [Official c++ guidelines that explain how to code in c++](http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#main)
-- [How to pass smart pointers and all the most important stuff about the c++11](https://youtu.be/xnqTKD8uD64?t=1141)
+The task is to put **R G B** balls to the beginning of the queue. The only movement we can make is to put a group of 3
+elements to the end.
+
+## Runtime example
+
+```txt
+./RGB_algorithmic_problem.exe
+---
+Use 'help' to see the list of commands
+Enter your command: help
+help
+exit: terminate the process
+help: list all the commands
+adv: sort the balls using the advanced algorithm
+naive: sort the balls using the naive sorting algorithm
+breadth: sort the balls using the breadth search algorithm
+ini: sort the balls using the initialTripleSearch algorithm
+ini2: sort the balls using the initialTripleSearch algorithm
+meas: Measure time of the advanced algorithm
+Enter your command: adv
+adv
+Enter the number of balls divisible by 3
+12
+```
+
+![Runtime](./images/runtime.png)
 
 ## How to generate a vector of RGB elements
 
