@@ -7,18 +7,6 @@
 
 using namespace std;
 
-int tmp() {
-//    measureAlgorithmExecutionTime(SortingAlgorithm::NaiveSorting, 1000, 125, 30,
-//                                  "naiveSorting.txt");
-//    measureAlgorithmExecutionTime(SortingAlgorithm::InitialTripleSearch, 999, 501, 30,
-//                                  "initialTripleSearch.txt");
-//    measureAlgorithmExecutionTime(SortingAlgorithm::AdvancedSort, 999, 249, 30,
-//                                  "advancedSort.txt");
-    measureAlgorithmExecutionTime(SortingAlgorithm::BreadthSearch, 7, 1, 10,
-                                  "../benchmarking/breadthSearch.txt");
-    return 0;
-}
-
 
 int main(int argc, const char *argv[]) {
     if (argc == 1) {

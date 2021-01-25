@@ -27,9 +27,10 @@ int findExpValTriplePosition(int prevPosition, const vector<RgbElement> &element
  * three.
 */
 
-Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroupsAmount) {
+Solution NaiveSorting::sort(const vector<RgbElement> &elements) {
     vector<RgbElement> elementsCopy(elements);
     int groupSize = kRgbElements.size();
+    const int kMaxRgbGroupsAmount = maxRgbGroupsAmount(elements);
     std::vector<int> indexesOfMovedGroups;
     const std::function<std::vector<RgbElement> &(std::vector<RgbElement> &, int)> moveAndSaveIndex
             = [&indexesOfMovedGroups, &groupSize](std::vector<RgbElement> &elements,
@@ -40,7 +41,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                 }
                 return elements;
             };
-    for (int i = 0; i < maxRgbGroupsAmount * groupSize; ++i) {
+    for (int i = 0; i < kMaxRgbGroupsAmount * groupSize; ++i) {
         RgbElement expected_value = kRgbElements[i % groupSize];
         if (elementsCopy[i] == expected_value) {
             continue;
@@ -51,7 +52,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
             int moves;
             if (position % groupSize == 0) {  // on position 3k
                 moves = (position - i) / groupSize;
-                for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
             } else if (position % groupSize == 1 || position % groupSize == 2) {
                 if (elementsCopy.size() % groupSize == 0) {
                     int move_position = position;
@@ -62,7 +63,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     }
                     moveAndSaveIndex(elementsCopy, move_position);
                     moves = (int(elementsCopy.size()) - 3 - i) / groupSize;
-                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
                 } else if (elementsCopy.size() % groupSize == 1) {
                     int move_position = position - 2;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -72,7 +73,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     }
                     moveAndSaveIndex(elementsCopy, move_position);
                     moves = (int(elementsCopy.size()) - 1 - i) / groupSize;
-                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
                 } else if (elementsCopy.size() % groupSize == 2) {
                     int move_position = position - 1;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -82,14 +83,14 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     }
                     moveAndSaveIndex(elementsCopy, move_position);
                     moves = (int(elementsCopy.size()) - 2 - i) / groupSize;
-                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
                 }
             }
         } else if (expected_value == RgbElement::G) {
             int moves;
             if (position % groupSize == 1) {  // on position n 3k + 1
                 moves = (position - i) / groupSize;
-                for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
             } else if (position % groupSize == 2 || position % groupSize == 0) {
                 if (elementsCopy.size() % groupSize == 0) {
                     int move_position = position - 1;
@@ -100,7 +101,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     }
                     moveAndSaveIndex(elementsCopy, move_position);
                     moves = (int(elementsCopy.size()) - 2 - i) / groupSize;
-                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
                 } else if (elementsCopy.size() % groupSize == 1) {
                     int move_position = position;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -110,7 +111,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     }
                     moveAndSaveIndex(elementsCopy, move_position);
                     moves = (int(elementsCopy.size()) - 3 - i) / groupSize;
-                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
                 } else if (elementsCopy.size() % groupSize == 2) {
                     int move_position = position - 2;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -120,14 +121,14 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     }
                     moveAndSaveIndex(elementsCopy, move_position);
                     moves = (int(elementsCopy.size()) - 1 - i) / groupSize;
-                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
                 }
             }
         } else if (expected_value == RgbElement::B) {
             int moves;
             if (position % groupSize == 2) {  // on position 3k + 2
                 moves = (position - i) / groupSize;
-                for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
             } else if (position % groupSize == 0 || position % groupSize == 1) {
                 if (elementsCopy.size() % groupSize == 0) {
                     int move_position = position - 2;
@@ -138,7 +139,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     }
                     moveAndSaveIndex(elementsCopy, move_position);
                     moves = (int(elementsCopy.size()) - 1 - i) / groupSize;
-                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
                 } else if (elementsCopy.size() % groupSize == 1) {
                     int move_position = position - 1;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -148,7 +149,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     }
                     moveAndSaveIndex(elementsCopy, move_position);
                     moves = (int(elementsCopy.size()) - 2 - i) / groupSize;
-                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
                 } else if (elementsCopy.size() % groupSize == 2) {
                     int move_position = position;
                     if (move_position < i) { // because sometimes we may move already sorted balls and we need to find
@@ -158,7 +159,7 @@ Solution NaiveSorting::sort(const vector<RgbElement> &elements, int maxRgbGroups
                     }
                     moveAndSaveIndex(elementsCopy, move_position);
                     moves = (int(elementsCopy.size()) - 3 - i) / groupSize;
-                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, j);
+                    for (int j = 0; j < moves; ++j) moveAndSaveIndex(elementsCopy, i);
                 }
             }
         }

@@ -120,6 +120,6 @@ Solution InitialTripleSearch::sort(const vector<RgbElement> &elements, int failu
     // sorting the unsorted part of the vector using NaiveSorting
     int offset = countFirstRgbGroups(elementsCopy.cbegin() + startPoint, elementsCopy.cend()) * groupSize;
     vector<RgbElement> unsorted_elements(elementsCopy.begin() + offset, elementsCopy.end());
-    Solution naiveSolution = NaiveSorting::sort(unsorted_elements, maxRgbGroupsAmount(unsorted_elements));
+    Solution naiveSolution = NaiveSorting::sort(unsorted_elements);
     return AdvancedSort::mergedSolutions(Solution(elementsCopy, indexesOfMovedGroups), naiveSolution, offset);
 }

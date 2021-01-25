@@ -91,7 +91,7 @@ bool naiveSortCm() {
     std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
 
     cout << "Result:\n";
-    const Solution &sol = NaiveSorting::sort(elements, maxRgbGroupsAmount(elements));
+    const Solution &sol = NaiveSorting::sort(elements);
     printResults(cout, elements, sol) << std::endl;
     return true;
 }
@@ -127,7 +127,8 @@ bool initialTripleCm() {
     std::cout << "Max amount of triples: " << maxRgbGroupsAmount(elements) << std::endl;
 
     cout << "Result:\n";
-    const Solution &sol = InitialTripleSearch::sort(elements, (int) elements.size() / 100);
+    int limit = elements.size();
+    const Solution &sol = InitialTripleSearch::sort(elements, limit);
     printResults(cout, elements, sol) << std::endl;
     return true;
 }
@@ -204,9 +205,8 @@ void measureAlgorithmExecutionTime(SortingAlgorithm algorithm,
     for (const auto &elements : generatedElements) {
         if (algorithm == SortingAlgorithm::NaiveSorting) {
             outfile << elements.size() << "\n";
-            const int kMaxRgbGroupsAmount = maxRgbGroupsAmount(elements);
             double time = elapsedTime([&] {
-                cout << NaiveSorting::sort(elements, kMaxRgbGroupsAmount).arrangedElements << std::endl;
+                cout << NaiveSorting::sort(elements).arrangedElements << std::endl;
             });
             outfile << time << "\n";
         } else if (algorithm == SortingAlgorithm::InitialTripleSearch) {

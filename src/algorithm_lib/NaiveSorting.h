@@ -9,7 +9,7 @@
 class NaiveSorting {
 
 public:
-    static Solution sort(const std::vector<RgbElement> &elements, int maxRgbGroupsAmount);
+    static Solution sort(const std::vector<RgbElement> &elements);
 };
 
 #endif //RGB_ALGORITHMIC_PROBLEM_NAIVESORTING_H
