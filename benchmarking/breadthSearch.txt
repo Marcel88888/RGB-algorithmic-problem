@@ -1,21 +1,19 @@
-breadthSearch startingElementsAmount: 7 numberOfElementsAdded: 1 iterationsNumber: 10
+../benchmarking/breadthSearch.txt startingElementsAmount: 7 numberOfElementsAdded: 1 iterationsNumber: 9
 7
-0.000527935
+0
 8
-7.2767e-05
+0
 9
-0.00501953
+0.015625
 10
-1.0235e-05
+0
 11
-0.380299
+0.015625
 12
-0.102198
+0
 13
-0.00419396
+0
 14
-0.294493
+0.5
 15
-30.2551
-16
-48.3396
+22.625

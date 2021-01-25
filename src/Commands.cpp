@@ -287,13 +287,13 @@ bool measureAlgorithmExecutionTimeCm(int argc, const char **argv) {
                 SortingAlgorithm::InitialTripleSearch, 999,
                 501, 30, "../benchmarking/initialTripleSearch.txt");
     else if (parsedOpts.algorithmName == "breadth") {
-        measureAlgorithmExecutionTime(SortingAlgorithm::BreadthSearch, 7, 1, 10,
+        measureAlgorithmExecutionTime(SortingAlgorithm::BreadthSearch, 7, 1, 9,
                                       "../benchmarking/breadthSearch.txt");
     } else if (parsedOpts.algorithmName == "naive") {
         measureAlgorithmExecutionTime(SortingAlgorithm::NaiveSorting, 1000, 125, 30,
                                       "../benchmarking/naiveSorting.txt");
     } else if (parsedOpts.algorithmName == "advanced") {
-        measureAlgorithmExecutionTime(SortingAlgorithm::AdvancedSort, 999, 249, 30,
+        measureAlgorithmExecutionTime(SortingAlgorithm::AdvancedSort, 432, 108, 30,
                                       "../benchmarking/advancedSort.txt");
     }
     return true;
