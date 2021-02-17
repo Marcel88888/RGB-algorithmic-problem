@@ -24,7 +24,7 @@ int countFirstRgbGroups(std::vector<RgbElement>::const_iterator beg,
  * is R, then it is better to choose [G, B, R], worse [G, B, x] and the least priority three is [G, x, x]. These
  * two phases are repeated until number of failures during sorting (after some time the algorithm does the same steps
  * all the time) reaches the limit of failures set calling sorting method.
- *
+ * Phase 3: After exceeding the limit of failed attempts on the sorted part, the NaiveSorting algorithm is triggered.
  */
 void makeSortingStep(vector<RgbElement> &elements, int startingPoint, int groupSize,
                      const std::function<std::vector<RgbElement> &(std::vector<RgbElement> &, int)> &moveTripleBack) {
