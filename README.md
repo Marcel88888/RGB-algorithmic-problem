@@ -12,7 +12,7 @@
 
 ## About
 
-Project made for subject Algorithm Analysis at the Warsaw University of Technology.
+Project made for the subject Algorithm Analysis at the Warsaw University of Technology.
 
 Task description:
 
